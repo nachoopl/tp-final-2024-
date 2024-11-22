@@ -24,7 +24,7 @@ stUsuario cargarUnusuario()
     printf("\nIngrese contrasenia: ");
     while (scanf("%s", A.pass) != 1 || strlen(A.pass) <= 6)
     {
-        printf("ERROR: La contrasenia debe tener más de 6 caracteres. Ingrese una contrasenia valida: ");
+        printf("ERROR: La contrasenia debe tener mas de 6 caracteres. Ingrese una contrasenia valida: ");
         fflush(stdin);
     }
 
@@ -381,3 +381,35 @@ void modificarDatosUsuario(char ArchivoUsuario[], int dato) // Funcion que modif
         fclose(buffer);
     }
 }
+
+
+void limpiarArregloDeListas(stCelda ADL[], int validos)
+{
+for(int i = 0; i < validos; i++)
+    {
+    nodoListaCancion * aux = ADL[i].listaCanciones;
+    while(aux != NULL)
+        {
+        nodoListaCancion * aBorrar = aux;
+        aux = aux->siguiente;
+        free(aBorrar);
+        }
+    ADL[i].listaCanciones = iniclista;
+    }
+}
+
+/*void persistirCancionesEscuchadas(stCelda ADL[], int validos, char ArchivoEscuchadas[])
+{
+FILE * archi = fopen(ArchivoEscuchadas, "ab");
+if(archi)
+    {
+    for(int i = 0; i < validos; i++)
+        {
+        nodoListaCancion * aux = ADL[i].listaCanciones;
+        while(aux != NULL)
+            {
+            fwrite(&)
+            }
+        }
+    }
+}*/

@@ -21,12 +21,12 @@ int main()
     stUsuario A;
     stPlaylist nuevaPlaylist;
     nodoArbolCancion* arbol=inicarbol();
-    //cargarArchivoDecanciones("cancion.dat");
-    //MostrarArchivoCanciones("cancion.dat", C);
-    //cargarArchivoDeUsuario("usuario.dat");
-   // mostrarArchivoUsuario("usuario.dat",A);
-    //cargarPlaylistArchivo("playlist.dat");
-   // mostrarArchivoPlaylist("playlist.dat", nuevaPlaylist);
+    cargarArchivoDecanciones("cancion.dat");
+    MostrarArchivoCanciones("cancion.dat", C);
+    cargarArchivoDeUsuario("usuario.dat");
+    mostrarArchivoUsuario("usuario.dat",A);
+    cargarPlaylistArchivo("playlist.dat");
+    mostrarArchivoPlaylist("playlist.dat", nuevaPlaylist);
 
 pasarArchiToArbolCanciones("cancion.dat", &arbol);
 inorder(arbol);

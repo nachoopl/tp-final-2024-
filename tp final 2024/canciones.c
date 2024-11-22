@@ -10,41 +10,85 @@ nodoListaCancion* iniclista()
 stCancion cargarUnaCancion()
 {
     stCancion C;
-    printf("\n ingrese el idCancion: ");
-    fflush(stdin);
-    scanf("%i",&C.idCancion);
 
-    printf("\n ingrese el titulo: ");
+    printf("\nIngrese el idCancion (numero entero): ");
+    while (scanf("%i", &C.idCancion) != 1)
+    {
+        printf("ERROR. Ingrese un numero para idCancion: ");
+        fflush(stdin);
+    }
+
+    printf("\nIngrese el titulo: ");
     fflush(stdin);
     gets(C.titulo);
+    while (strlen(C.titulo) == 0)
+    {
+        printf("ERROR. El titulo no puede estar vacio. Ingrese el titulo: ");
+        fflush(stdin);
+        gets(C.titulo);
+    }
 
-    printf("\n ingrese el artista: ");
+    printf("\nIngrese el artista: ");
     fflush(stdin);
     gets(C.artista);
+    while (strlen(C.artista) == 0)
+    {
+        printf("ERROR. El artista no puede estar vacio. Ingrese el artista: ");
+        fflush(stdin);
+        gets(C.artista);
+    }
 
- printf("\n ingrese la duracion: ");
-    fflush(stdin);
-    scanf("%i",&C.duracion);
+    printf("\nIngrese la duracion (en segundos): ");
+    while (scanf("%i", &C.duracion) != 1 || C.duracion <= 0)
+    {
+        printf("ERROR. Ingrese una duracion valida (mayor a 0): ");
+        fflush(stdin);
+    }
 
-    printf("\n ingrese el album: ");
+    printf("\nIngrese el album: ");
     fflush(stdin);
     gets(C.album);
+    while (strlen(C.album) == 0)
+    {
+        printf("ERROR. El album no puede estar vacio. Ingrese el album: ");
+        fflush(stdin);
+        gets(C.album);
+    }
 
-    printf("\n ingrese el anio: ");
-    fflush(stdin);
-    scanf("%i",&C.anio);
+    printf("\nIngrese el anio (numero entero): ");
+    while (scanf("%i", &C.anio) != 1 || C.anio > 2025)
+    {
+        printf("ERROR. Ingrese un anio valido: ");
+        fflush(stdin);
+    }
 
-    printf("\n ingrese el genero: ");
+    printf("\nIngrese el genero: ");
     fflush(stdin);
     gets(C.genero);
+    while (strlen(C.genero) == 0)
+    {
+        printf("ERROR. El genero no puede estar vacio. Ingrese el genero: ");
+        fflush(stdin);
+        gets(C.genero);
+    }
 
-    printf("\n ingrese comentario: ");
+    printf("\nIngrese comentario: ");
     fflush(stdin);
     gets(C.comentario);
+    while (strlen(C.comentario) == 0)
+    {
+        printf("ERROR. El comentario no puede estar vacio. Ingrese comentario: ");
+        fflush(stdin);
+        gets(C.comentario);
+    }
 
-    printf("\n ingrese eliminado(1/0): ");
-    fflush(stdin);
-    scanf("%i",&C.eliminado);
+    printf("\nIngrese eliminado (1 para eliminado, 0 para no eliminado): ");
+    while (scanf("%i", &C.eliminado) != 1 || (C.eliminado != 0 && C.eliminado != 1))
+    {
+        printf("ERROR. Ingrese 1 para eliminado o 0 para no eliminado: ");
+        fflush(stdin);
+    }
+
     return C;
 }
 
