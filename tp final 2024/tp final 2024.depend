@@ -1,0 +1,97 @@
+# depslib dependency file v1.0
+1731448505 source:c:\users\agustin\downloads\tp final 2024\playlist.c
+	<stdio.h>
+	<stdlib.h>
+	"string.h"
+
+1732216206 source:c:\users\agustin\downloads\tp final 2024\canciones.c
+	<stdio.h>
+	<stdlib.h>
+	"string.h"
+	"canciones.h"
+
+1732215254 c:\users\agustin\downloads\tp final 2024\canciones.h
+
+1732071721 source:c:\users\agustin\downloads\tp final 2024\usuario.c
+	<stdio.h>
+	<stdlib.h>
+	"string.h"
+	"usuario.h"
+
+1731987694 c:\users\agustin\downloads\tp final 2024\usuario.h
+	"canciones.h"
+
+1732217047 source:c:\users\agustin\downloads\tp final 2024\main.c
+	<stdio.h>
+	<stdlib.h>
+	"string.h"
+	"canciones.h"
+	"usuario.h"
+	"playlist.h"
+
+1731973404 c:\users\agustin\downloads\tp final 2024\playlist.h
+
+1732216206 source:c:\users\nacho\onedrive\documentos\github\proyecto-final-lab-2-2024\tp final 2024\canciones.c
+	<stdio.h>
+	<stdlib.h>
+	"string.h"
+	"canciones.h"
+
+1732215254 c:\users\nacho\onedrive\documentos\github\proyecto-final-lab-2-2024\tp final 2024\canciones.h
+
+1732217047 source:c:\users\nacho\onedrive\documentos\github\proyecto-final-lab-2-2024\tp final 2024\main.c
+	<stdio.h>
+	<stdlib.h>
+	"string.h"
+	"canciones.h"
+	"usuario.h"
+	"playlist.h"
+
+1731987694 c:\users\nacho\onedrive\documentos\github\proyecto-final-lab-2-2024\tp final 2024\usuario.h
+	"canciones.h"
+
+1731973404 c:\users\nacho\onedrive\documentos\github\proyecto-final-lab-2-2024\tp final 2024\playlist.h
+
+1731448505 source:c:\users\nacho\onedrive\documentos\github\proyecto-final-lab-2-2024\tp final 2024\playlist.c
+	<stdio.h>
+	<stdlib.h>
+	"string.h"
+
+1732071721 source:c:\users\nacho\onedrive\documentos\github\proyecto-final-lab-2-2024\tp final 2024\usuario.c
+	<stdio.h>
+	<stdlib.h>
+	"string.h"
+	"usuario.h"
+
+1732216208 source:c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\canciones.c
+	<stdio.h>
+	<stdlib.h>
+	"string.h"
+	"canciones.h"
+
+1732215256 c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\canciones.h
+
+1732217048 source:c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\main.c
+	<stdio.h>
+	<stdlib.h>
+	"string.h"
+	"canciones.h"
+	"usuario.h"
+	"playlist.h"
+
+1731987696 c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\usuario.h
+	"canciones.h"
+
+1731973406 c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\playlist.h
+
+1731448506 source:c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\playlist.c
+	<stdio.h>
+	<stdlib.h>
+	"string.h"
+
+1732071722 source:c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\usuario.c
+	<stdio.h>
+	<stdlib.h>
+	"string.h"
+	"usuario.h"
+
