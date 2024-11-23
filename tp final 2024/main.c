@@ -14,24 +14,32 @@ void cargarPlaylistArchivo(char Archivoplaylist[]);
 void mostrarArchivoPlaylist(char Archivoplaylist[],stPlaylist nuevaPlaylist);
 int pasarArchivoPlaylistToADL(char Archivoplaylist[], stCelda ADL[], int validos, nodoArbolCancion *arbol);
 void mostrarADL(stCelda ADL [],int validos);
-int alta(stCelda ADL[], int validos, stUsuario A, stCancion C);
+int pasarArchivoCancionesToADL(char archivoCanciones[], stCelda ADL[], int validos);
+int usuarioEscuchaCancion(int idUsuario, int idCancion);
 int main()
 {
     stCancion C;
     stUsuario A;
     stPlaylist nuevaPlaylist;
     nodoArbolCancion* arbol=inicarbol();
-    cargarArchivoDecanciones("cancion.dat");
+    //cargarArchivoDecanciones("cancion.dat");
     MostrarArchivoCanciones("cancion.dat", C);
-    cargarArchivoDeUsuario("usuario.dat");
+    //cargarArchivoDeUsuario("usuario.dat");
     mostrarArchivoUsuario("usuario.dat",A);
     cargarPlaylistArchivo("playlist.dat");
     mostrarArchivoPlaylist("playlist.dat", nuevaPlaylist);
 
-pasarArchiToArbolCanciones("cancion.dat", &arbol);
-inorder(arbol);
+//pasarArchiToArbolCanciones("cancion.dat", &arbol);
+//inorder(arbol);
 
-    menu();
+stCelda ADL[100];
+int validos = 0;
+validos = pasarArchivoToADL("usuario.dat", ADL);
+validos = pasarArchivoPlaylistToADL("playlist.dat", ADL, validos, arbol);
+validos = pasarArchivoCancionesToADL("cancion.dat" ,ADL, validos);
+
+mostrarADL(ADL, validos);
+   //menu();
     return 0;
 }
 void menu()
@@ -398,66 +406,120 @@ void mostrarArchivoPlaylist(char Archivoplaylist[],stPlaylist nuevaPlaylist)
     }
 }
 
-int pasarArchivoPlaylistToADL(char Archivoplaylist[], stCelda ADL[], int validos, nodoArbolCancion *arbol)
-{
-    stUsuario A;
-    stCancion C;
-    FILE *archi = fopen("playlist.dat", "rb");
-    if (archi)
-    {
 
-        stPlaylist playlist;
-        while (fread(&playlist, sizeof(stPlaylist), 1, archi) > 0)
-        {
-
-            int pos = buscarPosUsuario(ADL, playlist.idUsuario, validos);
-
-            if (pos == -1)
-            {
-                 A = cargarUsuarioADL(playlist.idUsuario);
-                validos=alta(ADL,validos,A,C);
-
-                 pos = validos - 1;
-            }
-            nodoArbolCancion *cancionBuscada = buscarCancion(arbol,playlist.idCancion);
-
-            if (cancionBuscada != NULL)
-            {
-                nodoListaCancion *nuevaCancion = crearNodo(cancionBuscada->dato);
-
-
-                ADL[pos].listaCanciones = AgregarEnOrdenPorNombreCancion(ADL[pos].listaCanciones,nuevaCancion);
-            }
-        }
-
+int pasarArchivoToADL(char ArchivoUsuario[], stCelda ADL[]) {
+    FILE* archi = fopen(ArchivoUsuario, "rb");
+    if (!archi) {
+        printf("ERROR: No se pudo abrir el archivo de usuarios.\n");
+        return 0;
     }
-fclose(archi);
+
+    stUsuario A;
+    int validos = 0;
+    while (fread(&A, sizeof(stUsuario), 1, archi) > 0) {
+        if (A.eliminado == 0) { // Solo cargar usuarios activos
+            ADL[validos].A = A;
+            ADL[validos].listaCanciones = NULL; // Inicializar lista de canciones
+            validos++;
+        }
+    }
+
+    fclose(archi);
     return validos;
 }
 
-void mostrarADL(stCelda ADL [],int validos)
-{
-    int i=0;
-    for(i; i<validos; i++)
-    {
-        printf("\nIdUsuario:%i ",ADL[i].A.idUsuario);
-        printf("\nNombre de Usuario: %s ",ADL[i].A.nombreUsuario);
-        nodoListaCancion* aux=ADL[i].listaCanciones;
-        if(aux!=NULL)
-        {
-            while(aux!=NULL)
-            {
+int pasarArchivoPlaylistToADL(char Archivoplaylist[], stCelda ADL[], int validos, nodoArbolCancion *arbol) {
+    FILE* archi = fopen(Archivoplaylist, "rb");
+    if (!archi) {
+        printf("ERROR: No se pudo abrir el archivo de playlists.\n");
+        return validos;
+    }
 
-                printf("\nIdCancion: %i",aux->dato.idCancion);
-                printf("\nCancion: %s",aux->dato.titulo);
-                aux=aux->siguiente;
+    stPlaylist playlist;
+    while (fread(&playlist, sizeof(stPlaylist), 1, archi) > 0) {
+        // Buscar el usuario en el arreglo ADL
+        int pos = buscarPosUsuario(ADL, playlist.idUsuario, validos);
+        if (pos == -1) {
+            // Si el usuario no existe en ADL, se salta esta playlist
+            continue;
+        }
+
+        // Buscar la canción correspondiente en el árbol
+        nodoArbolCancion *cancionBuscada = buscarCancion(arbol, playlist.idCancion);
+        if (!cancionBuscada) {
+            // Si la canción no se encuentra en el árbol, se omite
+            continue;
+        }
+
+        // Crear un nodo para la canción y agregarlo a la lista de canciones del usuario
+        nodoListaCancion *nuevoNodo = crearNodo(cancionBuscada->dato);
+        ADL[pos].listaCanciones = AgregarEnOrdenPorNombreCancion(ADL[pos].listaCanciones, nuevoNodo);
+    }
+
+    fclose(archi);
+    return validos;
+}
+
+int pasarArchivoCancionesToADL(char archivoCanciones[], stCelda ADL[], int validos) {
+    FILE *archi = fopen(archivoCanciones, "rb");
+    if (!archi) {
+        printf("Error al abrir el archivo %s.\n", archivoCanciones);
+        return validos;
+    }
+
+    stCancion cancion;
+    while (fread(&cancion, sizeof(stCancion), 1, archi) > 0) {
+        // Iterar sobre todos los usuarios en ADL
+        for (int i = 0; i < validos; i++) {
+            // Verificar si el usuario i tiene la canción en su playlist
+            if (usuarioEscuchaCancion(ADL[i].A.idUsuario, cancion.idCancion)) {
+                // Si el usuario escucha esta canción, agregarla a su lista
+                nodoListaCancion *nuevoNodo = crearNodo(cancion);
+                ADL[i].listaCanciones = AgregarEnOrdenPorNombreCancion(ADL[i].listaCanciones, nuevoNodo);
             }
         }
-        else
-        {
-            printf("EL usuario no tiene canciones\n");
+    }
 
+    fclose(archi);
+    return validos;
+}
+
+int usuarioEscuchaCancion(int idUsuario, int idCancion) {
+    FILE *archi = fopen("playlist.dat", "rb");
+    if (!archi) {
+        printf("Error al abrir el archivo de playlists.\n");
+        return 0;  // No se pudo abrir el archivo
+    }
+
+    stPlaylist playlist;
+    while (fread(&playlist, sizeof(stPlaylist), 1, archi) > 0) {
+        // Verificar si el idUsuario y el idCancion coinciden
+        if (playlist.idUsuario == idUsuario && playlist.idCancion == idCancion) {
+            fclose(archi);
+            return 1;  // La canción está asociada con el usuario
         }
+    }
+
+    fclose(archi);
+    return 0;  // No se encontró la canción para este usuario
+}
+
+void mostrarADL(stCelda ADL[], int validos) {
+    for (int i = 0; i < validos; i++) {
+        printf("\nID Usuario: %d", ADL[i].A.idUsuario);
+        printf("\nNombre de Usuario: %s", ADL[i].A.nombreUsuario);
+
+        if (ADL[i].listaCanciones == NULL) {
+            printf("\nSin canciones.\n");
+        } else {
+            printf("\nCanciones:\n");
+            nodoListaCancion *aux = ADL[i].listaCanciones;
+            while (aux != NULL) {
+                printf("  - ID Canción: %d, Título: %s\n", aux->dato.idCancion, aux->dato.titulo);
+                aux = aux->siguiente;
+            }
+        }
+        printf("------------------------------------\n");
     }
 }
 
@@ -498,4 +560,3 @@ void cargarArchivoDeUsuario( char ArchivoUsuario[])
     }
     fclose(archi);
 }
-

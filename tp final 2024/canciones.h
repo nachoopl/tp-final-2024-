@@ -47,7 +47,7 @@ nodoArbolCancion * buscarCancion(nodoArbolCancion* arbol, int idcancionAbuscar);
 nodoListaCancion* buscarEnlistaPorIdCancion(nodoListaCancion* lista,int IdCancion);
 nodoArbolCancion* cargarArbolcancionConArchivo(nodoArbolCancion* arbol,char ArchivoCancion[]);
 stCancion cargarUnaCancion();
-void MostrarArchivoCanciones(char ArchivoCancion[],stCancion C);
+void MostrarArchivoCanciones(char ArchivoCancion[], stCancion C);
 void modificarDatosCancion(char ArchivoCancion[], int dato) ;
 void pasarArchiToArbolCanciones(char ArchivoCancion[],nodoArbolCancion** arbol);
 #endif // CANCIONES_H_INCLUDED

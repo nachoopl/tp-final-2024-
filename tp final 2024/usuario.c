@@ -80,6 +80,7 @@ void mostrarUsuario(stUsuario A)
 }
 
 ///ARCHIVOS
+
 void cargarUnusuarioArchivo(char ArchivoUsuario[],stUsuario A)
 {
     FILE* archi=fopen("usuario.dat","ab");
@@ -89,16 +90,16 @@ void cargarUnusuarioArchivo(char ArchivoUsuario[],stUsuario A)
         fclose(archi);
     }
 }
-void mostrarArchivoUsuario(char ArchivoUsuario[],stUsuario A)
-{
-    FILE* archi=fopen("usuario.dat","rb");
-    if(archi)
-    {
-        while(fread(&A,sizeof(stUsuario),1,archi)>0 && A.eliminado==1)
-        {
+
+void mostrarArchivoUsuario(char ArchivoUsuario[], stUsuario A) {
+    FILE* archi = fopen(ArchivoUsuario, "rb");
+    if (archi) {
+        while (fread(&A, sizeof(stUsuario), 1, archi) > 0) {
             mostrarUsuario(A);
         }
         fclose(archi);
+    } else {
+        printf("ERROR: No se pudo abrir el archivo %s.\n", ArchivoUsuario);
     }
 }
 
@@ -149,9 +150,10 @@ void bajaUsuarioArchivo(char nombreArchivo[], int idUsuario) // Funcion que da d
                 break;
             }
         }
-fclose(archi);
+        fclose(archi);
 
-    }}
+    }
+}
 
 
 void bajaLogicaUsuario(char nombreArchivo[], int idUsuario)
@@ -238,32 +240,17 @@ void altaUsuarioArchivo(char ArchivoUsuario[], int idUsuario)
             if(idUsuario == A.idUsuario)
             {
                 A.eliminado = 0;
-               fseek(archi, (-1) * sizeof(stUsuario), 1);
-        fwrite(&A, sizeof(stUsuario), 1, archi);
+                fseek(archi, (-1) * sizeof(stUsuario), 1);
+                fwrite(&A, sizeof(stUsuario), 1, archi);
 
-        break;
+                break;
             }
-        }
-fclose(archi);
-    }
-}
-
-int pasarArchivoToADL(char ArchivoUsuario[],stCelda ADL[])
-{
-    stUsuario A;
-    stCancion C;
-    int validos=0;
-    FILE* archi=fopen("usuario.dat","rb");
-    if(archi)
-    {
-        while(fread(&A,sizeof(stUsuario),1,archi)>0)
-        {
-            validos=alta(ADL,validos,A,C);
         }
         fclose(archi);
     }
-    return validos;
 }
+
+
 stUsuario mostrarDatosUsuarioBuscado(char ArchivoUsuario[], int dato) // Funcion que muestra un usuario buscado por id en el archivo de usuarios
 {
     stUsuario A;
@@ -385,16 +372,16 @@ void modificarDatosUsuario(char ArchivoUsuario[], int dato) // Funcion que modif
 
 void limpiarArregloDeListas(stCelda ADL[], int validos)
 {
-for(int i = 0; i < validos; i++)
+    for(int i = 0; i < validos; i++)
     {
-    nodoListaCancion * aux = ADL[i].listaCanciones;
-    while(aux != NULL)
+        nodoListaCancion * aux = ADL[i].listaCanciones;
+        while(aux != NULL)
         {
-        nodoListaCancion * aBorrar = aux;
-        aux = aux->siguiente;
-        free(aBorrar);
+            nodoListaCancion * aBorrar = aux;
+            aux = aux->siguiente;
+            free(aBorrar);
         }
-    ADL[i].listaCanciones = iniclista;
+        ADL[i].listaCanciones = iniclista;
     }
 }
 

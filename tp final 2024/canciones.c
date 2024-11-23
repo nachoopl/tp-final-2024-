@@ -132,28 +132,28 @@ void AgregarAlFinal(nodoListaCancion** lista,nodoListaCancion* nuevo)
     }
 }
 
-nodoListaCancion* AgregarEnOrdenPorNombreCancion(nodoListaCancion* lista,nodoListaCancion* nuevo)
-{
-    if(lista == NULL)
-    {
-        lista = nuevo ;
+nodoListaCancion* AgregarEnOrdenPorNombreCancion(nodoListaCancion* lista, nodoListaCancion* nuevoNodo) {
+    if (lista == NULL) {
+        return nuevoNodo; // Si la lista está vacía, el nuevo nodo es la primera canción
     }
-    if(strcmp(lista->dato.titulo,nuevo->dato.titulo)<0)
-    {
-        AgregarAlPrincipio(lista, nuevo);
+
+    nodoListaCancion* aux = lista;
+    nodoListaCancion* prev = NULL;
+
+    while (aux != NULL && strcmp(aux->dato.titulo, nuevoNodo->dato.titulo) < 0) {
+        prev = aux;
+        aux = aux->siguiente;
     }
-    else
-    {
-        nodoListaCancion *ante = lista;
-        nodoListaCancion *aux = lista;
-        while(aux != NULL && strcmp(nuevo->dato.titulo,lista->dato.titulo)>0)
-        {
-            ante = aux;
-            aux = aux->siguiente;
-        }
-        ante->siguiente = nuevo;
-        nuevo->siguiente = aux;
+
+    // Insertar el nodo en el lugar correcto
+    if (prev == NULL) {
+        nuevoNodo->siguiente = lista;
+        lista = nuevoNodo;
+    } else {
+        prev->siguiente = nuevoNodo;
+        nuevoNodo->siguiente = aux;
     }
+
     return lista;
 }
 
@@ -349,9 +349,8 @@ void cargarUnaCancionArchivo(char ArchivoCancion[],stCancion C)
     }
 }
 
-void MostrarArchivoCanciones(char ArchivoCancion[],stCancion C)
+void MostrarArchivoCanciones(char ArchivoCancion[], stCancion C)
 {
-
      FILE* archi=fopen("cancion.dat","rb");
     if(archi)
     {
