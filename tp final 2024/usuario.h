@@ -26,6 +26,4 @@ stUsuario mostrarDatosUsuarioBuscado(char ArchivoUsuario[], int dato);
 int buscarUsuarioPorID(char ArchivoUsuario[], int dato);
 void modificarDatosUsuario(char ArchivoUsuario[], int dato);
 stUsuario cargarUsuarioADL(int idUsuario);
-void limpiarArregloDeListas(stCelda ADL[], int validos);
-void persistirCancionesEscuchadas(stCelda ADL[], int validos, char ArchivoCanciones[]);
 #endif // USUARIO_H_INCLUDED

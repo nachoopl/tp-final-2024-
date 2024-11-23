@@ -370,33 +370,3 @@ void modificarDatosUsuario(char ArchivoUsuario[], int dato) // Funcion que modif
 }
 
 
-void limpiarArregloDeListas(stCelda ADL[], int validos)
-{
-    for(int i = 0; i < validos; i++)
-    {
-        nodoListaCancion * aux = ADL[i].listaCanciones;
-        while(aux != NULL)
-        {
-            nodoListaCancion * aBorrar = aux;
-            aux = aux->siguiente;
-            free(aBorrar);
-        }
-        ADL[i].listaCanciones = iniclista;
-    }
-}
-
-/*void persistirCancionesEscuchadas(stCelda ADL[], int validos, char ArchivoEscuchadas[])
-{
-FILE * archi = fopen(ArchivoEscuchadas, "ab");
-if(archi)
-    {
-    for(int i = 0; i < validos; i++)
-        {
-        nodoListaCancion * aux = ADL[i].listaCanciones;
-        while(aux != NULL)
-            {
-            fwrite(&)
-            }
-        }
-    }
-}*/
