@@ -19,7 +19,6 @@ int usuarioEscuchaCancion(int idUsuario, int idCancion);
 void limpiarArregloDeListas(stCelda ADL[], int validos);
 void persistirCancionesEscuchadas(stCelda ADL[], char ArchivoCancionesEscuchadas[], int validos);
 void mostrarArchiEscuchadas(char ArchivoCancionesEscuchadas[]);
-int contarUsuariosActivos(char ArchivoUsuario[]);
 int main()
 {
     stCancion C;
@@ -36,18 +35,17 @@ int main()
 //pasarArchiToArbolCanciones("cancion.dat", &arbol);
 //inorder(arbol);
 
-    int cantidadUsuariosActivos = contarUsuariosActivos("usuario.dat");
-    stCelda* ADL = (stCelda*) malloc(cantidadUsuariosActivos * sizeof(stCelda));
+    stCelda ADL[100];
     int validos = 0;
     validos = pasarArchivoToADL("usuario.dat", ADL);
     validos = pasarArchivoPlaylistToADL("playlist.dat", ADL, validos, arbol);
     validos = pasarArchivoCancionesToADL("cancion.dat",ADL, validos);
 
     //limpiarArregloDeListas(ADL, validos);
-    mostrarADL(ADL, validos);
+    //mostrarADL(ADL, validos);
     persistirCancionesEscuchadas(ADL, "escuchadas.dat", validos);
-    //mostrarArchiEscuchadas("escuchadas.dat");
-    //menu();
+   // mostrarArchiEscuchadas("escuchadas.dat");
+    menu();
     return 0;
 }
 void menu()
@@ -114,7 +112,7 @@ void menu()
                                         A=mostrarDatosUsuarioBuscado("usuario.dat",idUsuario);
                                         if(A.eliminado==1)
                                         {
-                                            altaLogicaUsuario("usuario.dat",idUsuario);
+                                           altaUsuarioArchivo("usuario.dat",idUsuario);
                                             printf("Usuario reactivado correctamente.\n");
                                         }
                                     }
@@ -143,7 +141,7 @@ void menu()
                                         A=mostrarDatosUsuarioBuscado("usuario.dat",idUsuariobaja);
                                         if(A.eliminado==0)
                                         {
-                                            bajaLogicaUsuario("usuario.dat",idUsuariobaja);
+                                           bajaUsuarioArchivo("usuario.dat",idUsuariobaja);
                                             printf("Usuario desactivado correctamente.\n");
                                         }
                                     }
@@ -206,13 +204,13 @@ void menu()
                                     // Alta Cancion
                                     printf("ingrese el IdCancion a dar de alta: \n");
                                     scanf("%i",&idcancion);
-                                    nodoArbolCancion* buscarC=buscarCancion(arbol,idcancion);
-                                    if(buscarC!=NULL)
+                                   int buscarC=buscarCancionPorID("cancion.dat",idcancion);
+                                    if(buscarC==1)
                                     {
-                                        mostrarUnaCancion(buscarC->dato);
-                                        if(buscarC->dato.eliminado==1)
+
+                                        if(C.eliminado==1)
                                         {
-                                            altaLogicaCancion("cancion.dat",idcancion);
+                                           altaCancionArchivo("cancion.dat",idcancion);
                                             printf("cancion reactivada correctamente.\n");
                                         }
                                     }
@@ -236,13 +234,13 @@ void menu()
                                     // Baja Cancion
                                     printf("ingrese el IdCancion a dar de baja: \n");
                                     scanf("%i",&idcancionbaja);
-                                    nodoArbolCancion* buscarbaja=buscarCancion(arbol,idcancion);
-                                    if(buscarbaja)
+                                   int buscarbaja=buscarCancionPorID("cancion.dat",idcancionbaja);
+                                    if(buscarbaja==1)
                                     {
-                                        mostrarUnaCancion(buscarbaja->dato);
-                                        if(buscarbaja->dato.eliminado==0)
+
+                                        if(C.eliminado==0)
                                         {
-                                            bajaLogicaCancion("cancion.dat",idcancion);
+                                           bajaCancionesArchivo("cancion.dat",idcancionbaja);
                                             printf("cancion desactivada correctamente.\n");
                                         }
                                     }
@@ -258,10 +256,10 @@ void menu()
                                     // Modificación
                                     printf("ingrese el IDcancion a modificar: \n");
                                     scanf("%i",&idcancion);
-                                    buscarC=buscarCancion(arbol,idcancion);
-                                    if(buscarC)
+                                   buscarC=buscarCancionPorID("cancion.dat",idcancion);
+                                    if(buscarC==1)
                                     {
-                                        modificarDatosCancion("canciones.dat", idcancion);
+                                        modificarDatosCancion("cancion.dat", idcancion);
                                     }
                                     system("pause");
                                     system("cls");
@@ -339,29 +337,6 @@ void menu()
     }
     while (user != 0);
 }
-
-int contarUsuariosActivos(char ArchivoUsuario[]) {
-    FILE* archi = fopen(ArchivoUsuario, "rb");
-    if (archi == NULL) {
-        printf("ERROR: No se pudo abrir el archivo de usuarios.\n");
-        return 0;
-    }
-
-    stUsuario usuario;
-    int cantidad = 0;
-
-    while (fread(&usuario, sizeof(stUsuario), 1, archi) > 0) {
-        if (usuario.eliminado == 0) {
-            cantidad++;
-        }
-    }
-
-    fclose(archi);
-    return cantidad;
-}
-
-
-
 int alta(stCelda ADL[],int validos,stUsuario A,stCancion C)
 {
     nodoListaCancion* aux=crearNodo(C);
@@ -522,7 +497,6 @@ int usuarioEscuchaCancion(int idUsuario, int idCancion)
     FILE *archi = fopen("playlist.dat", "rb");
     if (archi == NULL)
     {
-        printf("Error al abrir el archivo de playlists.\n");
         return 0;
     }
 
@@ -585,7 +559,7 @@ void persistirCancionesEscuchadas(stCelda ADL[], char ArchivoCancionesEscuchadas
     }
 
     fclose(archi);
-    printf("Datos guardados en %s correctamente\n", ArchivoCancionesEscuchadas);
+
 }
 
 void mostrarArchiEscuchadas(char ArchivoCancionesEscuchadas[])

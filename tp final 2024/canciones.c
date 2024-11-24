@@ -362,54 +362,21 @@ void MostrarArchivoCanciones(char ArchivoCancion[], stCancion C)
     }
 }
 
-void bajaLogicaCancion(char ArchivoCancion[], int idCancion)
-{
-    char darBaja;
-    do
-    {
-        printf("Esta seguro que desea dar de baja en el sistema(s/n/0)?\n\ns. Si\nn. No\n0. Regresar\n\nOpcion: ");
-        fflush(stdin);
-        scanf("%c", &darBaja);
-        system("cls");
-        switch(darBaja)
-        {
-        case 's':
-            system("cls");
-            bajaCancionesArchivo("canciones.dat", idCancion);
-            printf("\nLacancion fue dada de baja correctamente\n");
-            system("pause");
-            system("cls");
-            break;
-        case 'n':
-            system("cls");
-            printf("\nDada de baja cancelada.\n");
-            system("pause");
-            system("cls");
-            break;
-        case '0':
-            system("cls");
-            break;
-        default:
-            printf("Caracter erroneo, ingrese uno valido\n\n");
-            break;
-        }
-    }
-    while(darBaja!='0');
-}
 
 void bajaCancionesArchivo(char ArchivoCancion[], int idCancion) // Funcion que da de baja un usuario por su dni
 {
     FILE* archi=fopen(ArchivoCancion,"r+b");
-    stCancion aux;
+    stCancion C;
     if(archi)
     {
-        while(fread(&aux, sizeof(stCancion), 1, archi) > 0)
+        while(fread(&C, sizeof(stCancion), 1, archi) > 0)
         {
-            if(idCancion==aux.idCancion)
+            if(idCancion==C.idCancion)
             {
-                aux.eliminado=1;
+                mostrarUnaCancion(C);
+                C.eliminado=1;
                 fseek(archi, (-1) * sizeof(stCancion), 1);
-        fwrite(&aux, sizeof(stCancion), 1, archi);
+        fwrite(&C, sizeof(stCancion), 1, archi);
         break;
             }
         }
@@ -418,63 +385,48 @@ void bajaCancionesArchivo(char ArchivoCancion[], int idCancion) // Funcion que d
     }
 }
 
-void altaLogicaCancion(char ArchivoCancion[], int idCancion)
-{
-    char darAlta;
-    do
-    {
-        printf("Esta seguro que desea dar de alta en el sistema(s/n/0)?\n\ns. Si\nn. No\n0. Regresar\n\nOpcion: ");
-        fflush(stdin);
-        scanf("%c", &darAlta);
-        system("cls");
-        switch(darAlta)
-        {
-        case 's':
-            system("cls");
-            altaCancionArchivo("canciones.dat", idCancion);
-            printf("\nLa cancion fue dada de alta correctamente\n");
-            system("pause");
-            system("cls");
-            break;
-        case 'n':
-            system("cls");
-            printf("\nDada de alta cancelada.\n");
-            system("pause");
-            system("cls");
-            break;
-        case '0':
-            system("cls");
-            break;
-        default:
-            printf("Caracter erroneo, ingrese uno valido\n\n");
-            break;
-        }
-    }
-    while(darAlta!='0');
-}
+
 
 void altaCancionArchivo(char ArchivoCancion[], int idCancion)
 {
     FILE * archi = fopen(ArchivoCancion,"r+b");
-    stCancion aux;
+    stCancion C;
 
     if(archi)
     {
-        while(fread(&aux, sizeof(stCancion), 1, archi) > 0)
+        while(fread(&C, sizeof(stCancion), 1, archi) > 0)
         {
-            if(idCancion == aux.idCancion)
+            if(idCancion == C.idCancion)
             {
-                aux.eliminado = 0;
+                mostrarUnaCancion(C);
+                C.eliminado = 0;
 
             }
         }
         fseek(archi, (-1) * sizeof(stCancion), 1);
-        fwrite(&aux, sizeof(stCancion), 1, archi);
+        fwrite(&C, sizeof(stCancion), 1, archi);
         fclose(archi);
     }
 }
 
-
+int buscarCancionPorID(char ArchivoCancion[], int dato) // Funcion que busca un usuario por id en el archivo de usuarios
+{
+    stCancion C;
+    int flag=0;
+    FILE *buffer=fopen(ArchivoCancion, "rb");
+    if(buffer)
+    {
+        while(fread(&C, sizeof(stCancion), 1, buffer)>0)
+        {
+            if(C.idCancion==dato)
+            {
+                flag=1;
+            }
+        }
+        fclose(buffer);
+    }
+    return flag;
+}
 
 void modificarDatosCancion(char ArchivoCancion[], int dato) // Funcion que modifica los datos de un usuario ingresado
 {

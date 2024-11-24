@@ -133,6 +133,8 @@ stUsuario cargarUsuarioADL(int idUsuario)
     A.idUsuario=idUsuario;
     return A;
 }
+
+
 void bajaUsuarioArchivo(char nombreArchivo[], int idUsuario) // Funcion que da de baja un usuario por su id
 {
     FILE* archi = fopen(nombreArchivo,"r+b");
@@ -143,6 +145,7 @@ void bajaUsuarioArchivo(char nombreArchivo[], int idUsuario) // Funcion que da d
         {
             if(idUsuario == A.idUsuario)
             {
+                mostrarUsuario(A);
                 A.eliminado = 1;
                 fseek(archi,-sizeof(stUsuario),SEEK_CUR);
                 fwrite(&A, sizeof(stUsuario), 1, archi);
@@ -156,77 +159,8 @@ void bajaUsuarioArchivo(char nombreArchivo[], int idUsuario) // Funcion que da d
 }
 
 
-void bajaLogicaUsuario(char nombreArchivo[], int idUsuario)
-{
-    int flag = 0;
-    char darBaja;
-    do
-    {
-        printf("Esta seguro que desea darse de baja en el sistema(s/n/0)?\n\ns. Si\nn. No\n0. Regresar\n\nOpcion: ");
-        fflush(stdin);
-        scanf(" %c", &darBaja);
-        system("cls");
-        switch(darBaja)
-        {
-        case 's':
-            system("cls");
-            bajaUsuarioArchivo("usuarios.dat", idUsuario);
-            printf("\nEl usuario fue dado de baja correctamente\n");
-            system("pause");
-            system("cls");
-            break;
-        case 'n':
-            system("cls");
-            printf("\nDada de baja cancelada.\n");
-            system("pause");
-            system("cls");
-            break;
-        case '0':
-            system("cls");
-            break;
-        default:
-            printf("Caracter erroneo, ingrese uno valido\n\n");
-            break;
-        }
 
-    }
-    while(darBaja!='0');
-}
 
-void altaLogicaUsuario(char nombreArchivo[], int idUsuario)
-{
-    char darAlta;
-    do
-    {
-        printf("Esta seguro que desea darse de alta en el sistema(s/n/0)?\n\ns. Si\nn. No\n0. Regresar\n\nOpcion: ");
-        fflush(stdin);
-        scanf(" %c",&darAlta);
-        switch(darAlta)
-        {
-        case 's':
-            system("cls");
-            altaUsuarioArchivo("usuario.dat", idUsuario);
-            printf("\nEl usuario fue dado de alta correctamente\n");
-            system("pause");
-            system("cls");
-            break;
-        case 'n':
-            system("cls");
-            printf("\nDada de alta cancelada.\n");
-            system("pause");
-            system("cls");
-            break;
-        case '0':
-            system("cls");
-            break;
-        default:
-            printf("Caracter erroneo, ingrese uno valido\n\n");
-            break;
-        }
-    }
-    while(darAlta!='0');
-
-}
 
 void altaUsuarioArchivo(char ArchivoUsuario[], int idUsuario)
 {
@@ -239,6 +173,7 @@ void altaUsuarioArchivo(char ArchivoUsuario[], int idUsuario)
         {
             if(idUsuario == A.idUsuario)
             {
+                mostrarUsuario(A);
                 A.eliminado = 0;
                 fseek(archi, (-1) * sizeof(stUsuario), 1);
                 fwrite(&A, sizeof(stUsuario), 1, archi);

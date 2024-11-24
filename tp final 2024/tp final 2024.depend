@@ -63,15 +63,15 @@
 	"string.h"
 	"usuario.h"
 
-1732329932 source:c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\canciones.c
+1732404791 source:c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\canciones.c
 	<stdio.h>
 	<stdlib.h>
 	"string.h"
 	"canciones.h"
 
-1732319010 c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\canciones.h
+1732406112 c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\canciones.h
 
-1732406982 source:c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\main.c
+1732406233 source:c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\main.c
 	<stdio.h>
 	<stdlib.h>
 	"string.h"
@@ -79,19 +79,51 @@
 	"usuario.h"
 	"playlist.h"
 
-1732380663 c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\usuario.h
+1732380664 c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\usuario.h
 	"canciones.h"
 
-1732383076 c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\playlist.h
+1732383078 c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\playlist.h
 
 1731448506 source:c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\playlist.c
 	<stdio.h>
 	<stdlib.h>
 	"string.h"
 
-1732380663 source:c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\usuario.c
+1732404791 source:c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\usuario.c
 	<stdio.h>
 	<stdlib.h>
 	"string.h"
 	"usuario.h"
+
+1732404791 source:c:\users\agustin\onedrive\escritorio\tp github\tp-final-2024-\tp final 2024\canciones.c
+	<stdio.h>
+	<stdlib.h>
+	"string.h"
+	"canciones.h"
+
+1732406112 c:\users\agustin\onedrive\escritorio\tp github\tp-final-2024-\tp final 2024\canciones.h
+
+1731448506 source:c:\users\agustin\onedrive\escritorio\tp github\tp-final-2024-\tp final 2024\playlist.c
+	<stdio.h>
+	<stdlib.h>
+	"string.h"
+
+1732404791 source:c:\users\agustin\onedrive\escritorio\tp github\tp-final-2024-\tp final 2024\usuario.c
+	<stdio.h>
+	<stdlib.h>
+	"string.h"
+	"usuario.h"
+
+1732380664 c:\users\agustin\onedrive\escritorio\tp github\tp-final-2024-\tp final 2024\usuario.h
+	"canciones.h"
+
+1732406025 source:c:\users\agustin\onedrive\escritorio\tp github\tp-final-2024-\tp final 2024\main.c
+	<stdio.h>
+	<stdlib.h>
+	"string.h"
+	"canciones.h"
+	"usuario.h"
+	"playlist.h"
+
+1732383078 c:\users\agustin\onedrive\escritorio\tp github\tp-final-2024-\tp final 2024\playlist.h
 
