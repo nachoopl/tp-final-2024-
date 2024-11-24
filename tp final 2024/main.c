@@ -19,6 +19,7 @@ int usuarioEscuchaCancion(int idUsuario, int idCancion);
 void limpiarArregloDeListas(stCelda ADL[], int validos);
 void persistirCancionesEscuchadas(stCelda ADL[], char ArchivoCancionesEscuchadas[], int validos);
 void mostrarArchiEscuchadas(char ArchivoCancionesEscuchadas[]);
+int contarUsuariosActivos(char ArchivoUsuario[]);
 int main()
 {
     stCancion C;
@@ -35,16 +36,17 @@ int main()
 //pasarArchiToArbolCanciones("cancion.dat", &arbol);
 //inorder(arbol);
 
-    stCelda ADL[100];
+    int cantidadUsuariosActivos = contarUsuariosActivos("usuario.dat");
+    stCelda* ADL = (stCelda*) malloc(cantidadUsuariosActivos * sizeof(stCelda));
     int validos = 0;
     validos = pasarArchivoToADL("usuario.dat", ADL);
     validos = pasarArchivoPlaylistToADL("playlist.dat", ADL, validos, arbol);
     validos = pasarArchivoCancionesToADL("cancion.dat",ADL, validos);
 
     //limpiarArregloDeListas(ADL, validos);
-    //mostrarADL(ADL, validos);
+    mostrarADL(ADL, validos);
     persistirCancionesEscuchadas(ADL, "escuchadas.dat", validos);
-    mostrarArchiEscuchadas("escuchadas.dat");
+    //mostrarArchiEscuchadas("escuchadas.dat");
     //menu();
     return 0;
 }
@@ -337,6 +339,29 @@ void menu()
     }
     while (user != 0);
 }
+
+int contarUsuariosActivos(char ArchivoUsuario[]) {
+    FILE* archi = fopen(ArchivoUsuario, "rb");
+    if (archi == NULL) {
+        printf("ERROR: No se pudo abrir el archivo de usuarios.\n");
+        return 0;
+    }
+
+    stUsuario usuario;
+    int cantidad = 0;
+
+    while (fread(&usuario, sizeof(stUsuario), 1, archi) > 0) {
+        if (usuario.eliminado == 0) {
+            cantidad++;
+        }
+    }
+
+    fclose(archi);
+    return cantidad;
+}
+
+
+
 int alta(stCelda ADL[],int validos,stUsuario A,stCancion C)
 {
     nodoListaCancion* aux=crearNodo(C);
