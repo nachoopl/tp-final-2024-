@@ -233,8 +233,8 @@ void mostrarArchiEscuchadas(char ArchivoCancionesEscuchadas[])
     {
         printf("ID Usuario: %d\n", cancionesEscuchadas.idUsuario);
         printf("Nombre Usuario: %s\n", cancionesEscuchadas.nombreUsuario);
-        printf("ID Canción: %d\n", cancionesEscuchadas.idCancion);
-        printf("Nombre Canción: %s\n", cancionesEscuchadas.nombreCancion);
+        printf("ID Cancion: %d\n", cancionesEscuchadas.idCancion);
+        printf("Nombre Cancion: %s\n", cancionesEscuchadas.nombreCancion);
         printf("-----------------------------\n");
     }
 
