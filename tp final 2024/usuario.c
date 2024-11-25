@@ -75,8 +75,15 @@ void mostrarUsuario(stUsuario A)
     else if(A.genero=='f')
         printf("\nGenero: %s\n",f);
     printf("Pais: %s\n", A.pais);
-    printf("Eliminado: %i\n", A.eliminado);
-    puts("-----------------------");
+        if(A.eliminado == 1)
+    {
+        printf("\n eliminado: si");
+    }
+    else
+        {
+        printf("eliminado: no");
+        }
+    puts("\n-----------------------");
 }
 
 ///ARCHIVOS
@@ -306,4 +313,114 @@ void modificarDatosUsuario(char ArchivoUsuario[], int dato)
         fclose(buffer);
     }
 
+}
+
+
+int buscarUsuarioPorNombre(char ArchivoUsuario[], char nombreUsuario[]) // Funcion que busca un usuario por id en el archivo de usuarios
+{
+    stUsuario A;
+    int flag=0;
+    FILE *buffer=fopen(ArchivoUsuario, "rb");
+    if(buffer)
+    {
+        while(fread(&A, sizeof(stUsuario), 1, buffer)>0)
+        {
+            if(strcmp(A.nombreUsuario,nombreUsuario)==0)
+            {
+                flag=1;
+            }
+        }
+        fclose(buffer);
+    }
+    return flag;
+}
+
+stUsuario UsuarioBuscado(char ArchivoUsuario[], char usuario[])
+{
+    stUsuario A;
+    FILE *buffer=fopen(ArchivoUsuario, "rb");
+    if(buffer)
+    {
+        while(fread(&A, sizeof(stUsuario), 1, buffer)>0)
+        {
+            if(strcmp(A.nombreUsuario, usuario) == 0)
+            {
+                return A;
+            }
+        }
+        fclose(buffer);
+    }
+    return A;
+}
+
+
+void menuLoginExitoso(stUsuario usuarioLogueado, char ArchivoPlaylist[], char ArchivoCancion[])
+{
+    int opcion;
+    do {
+        system("cls");
+        printf("------ Menu Usuario: %s ------\n", usuarioLogueado.nombreUsuario);
+        printf("1. Ver Perfil\n");
+        printf("2. Mostrar Playlist\n");
+        printf("3. Escuchar Cancion\n");
+        printf("4. Canciones Recomendadas\n");
+        printf("0. Cerrar Sesion\n");
+        printf("\nElige una opcion: ");
+        scanf("%d", &opcion);
+
+        switch (opcion) {
+        case 1: // Ver Perfil
+            system("cls");
+            printf("------ Perfil de Usuario ------\n");
+            mostrarUsuario(usuarioLogueado);
+            system("pause");
+            break;
+
+        case 2: // Mostrar Playlist
+            system("cls");
+            int ordenarPor;
+            printf("------ Mostrar Playlist ------\n");
+            printf("1. Ordenar por Nombre\n");
+            printf("2. Ordenar por Genero\n");
+            printf("Elige una opcion: ");
+            fflush(stdin);
+            scanf("%i", &ordenarPor);
+
+            if (ordenarPor == 1) {
+                //mostrarPlaylistOrdenadaPorNombre(ArchivoPlaylist, ArchivoCancion, usuarioLogueado.idUsuario); // Función que tú implementarías
+            } else if (ordenarPor == 2) {
+                //mostrarPlaylistOrdenadaPorGenero(ArchivoPlaylist, ArchivoCancion, usuarioLogueado.idUsuario); // Función que tú implementarías
+            } else {
+                printf("Opcion invalida.\n");
+            }
+            system("pause");
+            break;
+
+        case 3: // Escuchar Cancion
+            system("cls");
+            printf("------ Escuchar Cancion ------\n");
+            printf("Ingresa el ID de la cancion: ");
+            int idCancion;
+            scanf("%d", &idCancion);
+            //agregarCancionAPlaylist(ArchivoPlaylist, usuarioLogueado.idUsuario, idCancion); // Implementar para agregar canciones a la playlist
+            system("pause");
+            break;
+
+        case 4: // Canciones Recomendadas
+            system("cls");
+            printf("------ Canciones Recomendadas ------\n");
+            //mostrarCancionesRecomendadas(ArchivoPlaylist, ArchivoCancion, usuarioLogueado.idUsuario); // Implementar algoritmo de recomendación
+            system("pause");
+            break;
+
+        case 0:
+            printf("Cerrando sesion...\n");
+            break;
+
+        default:
+            printf("Opcion invalida. Intenta nuevamente.\n");
+            system("pause");
+            break;
+        }
+    } while (opcion != 0);
 }

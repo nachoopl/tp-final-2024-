@@ -181,7 +181,14 @@ void mostrarUnaCancion(stCancion C)
 
     printf("\n comentario: %s ",C.comentario);
 
-    printf("\n eliminado(1/0): %i",C.eliminado);
+    if(C.eliminado == 1)
+    {
+        printf("\n eliminado: si");
+    }
+    else
+        {
+        printf("\n eliminado: no");
+        }
     puts("\n---------------------------------------------");
 }
 
@@ -495,7 +502,8 @@ void modificarDatosCancion(char ArchivoCancion[], int dato)
                         printf("Numero erroneo, ingrese uno valido\n\n");
                         break;
                     }
-                } while (modo != 0);
+                }
+                while (modo != 0);
 
                 fseek(buffer, -sizeof(stCancion), SEEK_CUR);
                 fwrite(&C, sizeof(stCancion), 1, buffer);

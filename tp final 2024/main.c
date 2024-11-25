@@ -10,8 +10,6 @@ int pasarArchivoToADL(char ArchivoUsuario[],stCelda ADL[]);
 void mostrarADL(stCelda ADL [],int validos);
 void cargarArchivoDecanciones(char ArchivoCancion []);
 void cargarArchivoDeUsuario( char ArchivoUsuario[]);
-void cargarPlaylistArchivo(char Archivoplaylist[]);
-void mostrarArchivoPlaylist(char Archivoplaylist[],stPlaylist nuevaPlaylist);
 int pasarArchivoPlaylistToADL(char Archivoplaylist[], stCelda ADL[], int validos, nodoArbolCancion *arbol);
 void mostrarADL(stCelda ADL [],int validos);
 int pasarArchivoCancionesToADL(char archivoCanciones[], stCelda ADL[], int validos);
@@ -52,12 +50,14 @@ void menu()
     //limpiarArregloDeListas(ADL, validos);
     //mostrarADL(ADL, validos);
     persistirCancionesEscuchadas(ADL, "escuchadas.dat", validos);
-    // mostrarArchiEscuchadas("escuchadas.dat");
+    //mostrarArchiEscuchadas("escuchadas.dat");
 
     int user, login, adm, listusuarios, usua;
     int idUsuario,idUsuariobaja,idcancion,idcancionbaja;
     char admin[20];
     char contraAdmin[20];
+    char dato[20];
+    char contraUsuario[20];
 
     do
     {
@@ -315,16 +315,50 @@ void menu()
             break;
 
         case 2: // Modo Usuario
-            printf("Modo Usuario aún no implementado.\n");
-            system("pause");
-            system("cls");
-            break;
+    puts("\n------------------------------------------");
+    printf("\n\nIngresa tu usuario: ");
+    fflush(stdin);
+    gets(dato);
+    int buscar = buscarUsuarioPorNombre("usuario.dat", dato);
+    A = UsuarioBuscado("usuario.dat", dato);
+
+    if (buscar == 1) {
+        printf("Ingresa la contrasenia: \n");
+        fflush(stdin);
+        gets(contraUsuario);
+
+        while (strcmp(contraUsuario, A.pass) != 0) {
+            printf("Contrasenia incorrecta, ingresa nuevamente: \n");
+            fflush(stdin);
+            gets(contraUsuario);
+        }
+
+        printf("\nUsuario ingresado correctamente. Bienvenido, %s!\n", A.nombreUsuario);
+        system("pause");
+        menuLoginExitoso(A, "playlist.dat", "cancion.dat"); // Llamada al submenú de usuario
+    } else {
+        printf("Usuario inexistente.\n");
+        system("pause");
+    }
+
+    system("cls");
+    break;
 
         case 3: // Registrarse
-            printf("Funcionalidad de registro aún no implementada.\n");
-            system("pause");
-            system("cls");
-            break;
+        {
+            char t='s';
+            printf("Desea registrarse?(s/n)\n");
+            scanf(" %c",&t);
+            if(t=='s')
+            {
+                A=cargarUnusuario();
+                cargarUnusuarioArchivo("usuario.dat",A);
+                printf("Usuario registrado exitosamente.\n");
+            }
+        }
+        system("pause");
+        system("cls");
+        break;
 
         case 0: // Salir
             printf("Saliendo del programa...\n");
@@ -375,88 +409,7 @@ int contarUsuariosActivos(char ArchivoUsuario[])
 }
 
 
-int ultimoIdPlaylist(char Archivoplaylist[])
-{
-    FILE* archi = fopen("playlist.dat", "rb");
-    stPlaylist playlist;
-    int ultimoId = -1;
 
-    if (archi)
-    {
-        while (fread(&playlist, sizeof(stPlaylist), 1, archi) > 0)
-        {
-            if (playlist.idPlaylist > ultimoId)
-            {
-                ultimoId = playlist.idPlaylist;
-            }
-        }
-        fclose(archi);
-    }
-
-    return ultimoId + 1;
-}
-
-
-void cargarPlaylistArchivo(char Archivoplaylist[])
-{
-    FILE* archi = fopen("playlist.dat", "ab");
-    stPlaylist nuevaPlaylist;
-    char control = 's';
-
-    if (archi)
-    {
-        int idPlaylist = ultimoIdPlaylist(Archivoplaylist);
-
-        while (control == 's')
-        {
-            nuevaPlaylist.idPlaylist = idPlaylist;
-            printf("Ingrese el id del Usuario: ");
-            fflush(stdin);
-            scanf("%i", &nuevaPlaylist.idUsuario);
-
-            int buscar = buscarUsuarioPorID("usuario.dat", nuevaPlaylist.idUsuario);
-            if (buscar == 1)
-            {
-                printf("Ingrese el id de la Cancion: ");
-                fflush(stdin);
-                scanf("%i", &nuevaPlaylist.idCancion);
-
-                fwrite(&nuevaPlaylist, sizeof(stPlaylist), 1, archi);
-                idPlaylist++;
-            }
-            else
-            {
-                printf("\nUsuario inexistente");
-            }
-
-            printf("\n¿Cargar otro? (s/n): ");
-            fflush(stdin);
-            scanf(" %c", &control);
-        }
-        fclose(archi);
-    }
-}
-void mostrarArchivoPlaylist(char Archivoplaylist[],stPlaylist nuevaPlaylist)
-{
-    FILE* archi=fopen("playlist.dat","rb");
-
-    {
-        if(archi)
-        {
-            while(fread(&nuevaPlaylist,sizeof(stPlaylist),1,archi)>0)
-            {
-
-
-
-                printf("IdPlaylits: %i\n",nuevaPlaylist.idPlaylist);
-                printf("IdUsuario: %i\n",nuevaPlaylist.idUsuario);
-                printf("IdCancion: %i\n",nuevaPlaylist.idCancion);
-                printf("-----------------------------\n");
-            }
-        }
-        fclose(archi);
-    }
-}
 
 
 int pasarArchivoToADL(char ArchivoUsuario[], stCelda ADL[])
@@ -752,3 +705,46 @@ nodoA* eliminarNodo(nodoA* A, int valorAEliminar)
 
     return A;
 }*/
+
+
+/*int apellidoMenor(char nombreArchivo[],Usuario A,int pos)    ///metodo seleccion
+{
+    int menorApellido=A.nombreyApellido[pos];
+    int posmenor=pos;
+    int i=pos +1;
+    FILE buffer=fopen(nombreArchivo, "rb");
+    if(buffer)
+    {
+        while(fread(&A, sizeof(Usuario), 1, buffer)>0)
+        {
+            if(menorApellido>A.nombreyApellido[i])
+            {
+                menorApellido=A.nombreyApellido[i];
+                posmenor=i;
+            }
+            i++;
+        }
+        fclose(buffer);
+    }
+    return posmenor;
+}
+
+void ordenamientoAlfabeticoUsuarioApellido(char nombreArchivo[],Usuario A,int pos)
+{
+    int posmenor;
+    int aux;
+    int i=0;
+     FILEbuffer=fopen(nombreArchivo, "rb");
+       if(buffer)
+        {
+      while(fread(&A, sizeof(Usuario), 1, buffer)>0)
+      {
+          posmenor=apellidoMenor("nombreArchivo.bin", A, pos);
+          aux=A.nombreyApellido[posmenor];
+          A.nombreyApellido[posmenor]=A.nombreyApellido[i];
+          A.nombreyApellido[i]=aux;
+          i++;
+      }
+      fclose(buffer);
+         }
+         }*/

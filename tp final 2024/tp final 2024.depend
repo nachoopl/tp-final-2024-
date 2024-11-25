@@ -63,7 +63,7 @@
 	"string.h"
 	"usuario.h"
 
-1732492187 source:c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\canciones.c
+1732550005 source:c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\canciones.c
 	<stdio.h>
 	<stdlib.h>
 	"string.h"
@@ -71,7 +71,7 @@
 
 1732490250 c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\canciones.h
 
-1732504126 source:c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\main.c
+1732556515 source:c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\main.c
 	<stdio.h>
 	<stdlib.h>
 	"string.h"
@@ -79,17 +79,18 @@
 	"usuario.h"
 	"playlist.h"
 
-1732380664 c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\usuario.h
+1732554668 c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\usuario.h
 	"canciones.h"
 
-1732383078 c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\playlist.h
+1732556495 c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\playlist.h
 
-1731448506 source:c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\playlist.c
+1732556380 source:c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\playlist.c
 	<stdio.h>
 	<stdlib.h>
 	"string.h"
+	"playlist.h"
 
-1732492529 source:c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\usuario.c
+1732555004 source:c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\usuario.c
 	<stdio.h>
 	<stdlib.h>
 	"string.h"

@@ -17,5 +17,7 @@ typedef struct
 } stCancionesEscuchadas;
 
 void cargarPlaylistArchivo(char ArchivoPlaylist[]);
+int ultimoIdPlaylist(char Archivoplaylist[]);
+void mostrarArchivoPlaylist(char Archivoplaylist[],stPlaylist nuevaPlaylist);
 
 #endif // PLAYLIST_H_INCLUDED
