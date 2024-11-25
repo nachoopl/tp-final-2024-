@@ -186,24 +186,23 @@ void altaUsuarioArchivo(char ArchivoUsuario[], int idUsuario)
 }
 
 
-stUsuario mostrarDatosUsuarioBuscado(char ArchivoUsuario[], int dato) // Funcion que muestra un usuario buscado por id en el archivo de usuarios
-{
+stUsuario mostrarDatosUsuarioBuscado(char ArchivoUsuario[], int dato) {
     stUsuario A;
-    FILE *buffer=fopen(ArchivoUsuario, "rb");
-    if(buffer)
-    {
-        while(fread(&A, sizeof(stUsuario), 1, buffer)>0)
-        {
-            if(A.idUsuario==dato)
-            {
-                printf("\nYa estas registrado, los datos del usuario registrado con dicho Idusuario:\n");
-                mostrarUsuario(A);
+    A.idUsuario = -1;
+    FILE * buffer = fopen(ArchivoUsuario, "rb");
+
+    if (buffer) {
+        while (fread(&A, sizeof(stUsuario), 1, buffer) > 0) {
+            if (A.idUsuario == dato) {
+                fclose(buffer);
+                return A;
             }
         }
         fclose(buffer);
     }
     return A;
 }
+
 int buscarUsuarioPorID(char ArchivoUsuario[], int dato) // Funcion que busca un usuario por id en el archivo de usuarios
 {
     stUsuario A;
@@ -222,19 +221,20 @@ int buscarUsuarioPorID(char ArchivoUsuario[], int dato) // Funcion que busca un 
     }
     return flag;
 }
-void modificarDatosUsuario(char ArchivoUsuario[], int dato) // Funcion que modifica los datos de un usuario ingresado
-{
 
-    int mod, edad, flag=0;
+void modificarDatosUsuario(char ArchivoUsuario[], int dato)
+{
+    int mod, edad, flag = 0;
     char contra[20];
     char nombre[20];
-    FILE* buffer=fopen("usuario.dat", "r+b");
+    FILE* buffer = fopen("usuario.dat", "r+b");
     stUsuario A;
-    if(buffer)
+
+    if (buffer)
     {
-        while(flag==0 && fread(&A, sizeof(stUsuario), 1, buffer) == 1)
+        while (fread(&A, sizeof(stUsuario), 1, buffer) == 1)
         {
-            if(A.idUsuario==dato)
+            if (A.idUsuario == dato)
             {
                 do
                 {
@@ -243,7 +243,8 @@ void modificarDatosUsuario(char ArchivoUsuario[], int dato) // Funcion que modif
                     printf("Elija el dato a modificar(1/2/3/0): \n\n1. Nombre\n2. Nacimiento\n3.Contrasenia\n0. Regresar\n\nOpcion: ");
                     fflush(stdin);
                     scanf("%d", &mod);
-                    switch(mod)
+
+                    switch (mod)
                     {
                     case 1:
                         printf("\nIngrese el nuevo nombre: ");
@@ -258,30 +259,30 @@ void modificarDatosUsuario(char ArchivoUsuario[], int dato) // Funcion que modif
                         printf("\nIngrese el nuevo anio nacimiento: ");
                         fflush(stdin);
                         scanf("%d", &edad);
-                        while(edad > 2010)
+                        while (edad > 2010)
                         {
                             printf("\nNo puedes registrarte siendo menor de 14: ");
                             fflush(stdin);
                             scanf("%d", &edad);
                         }
-                        A.anioNacimiento=edad;
-                        printf("\nLa edad se ha cambiado a: %d\n", A.anioNacimiento);
+                        A.anioNacimiento = edad;
+                        printf("\nLa edad se ha cambiado a: %i\n", A.anioNacimiento);
                         system("pause");
                         system("cls");
                         break;
                     case 3:
                         printf("\nIngrese la nueva contrasenia(min 6 caracteres): ");
                         fflush(stdin);
-                        scanf("%s",contra);
-                        while ( strlen(contra) <= 6)
+                        scanf("%s", contra);
+                        while (strlen(contra) <= 6)
                         {
                             printf("ERROR: La contrasenia debe tener más de 6 caracteres. Ingrese una contrasenia valida: ");
                             fflush(stdin);
-                            scanf("%s",contra);
+                            scanf("%s", contra);
                         }
-                        strcpy(A.pass,contra);
+                        strcpy(A.pass, contra);
 
-                        printf("\nLa contrasenia  se ha cambiado a: %s\n",A.pass);
+                        printf("\nLa contrasenia  se ha cambiado a: %s\n", A.pass);
 
                         system("pause");
                         system("cls");
@@ -293,15 +294,16 @@ void modificarDatosUsuario(char ArchivoUsuario[], int dato) // Funcion que modif
                         printf("Numero erroneo, ingrese uno valido\n\n");
                         break;
                     }
-                }
-                while(mod!=0);
+                } while (mod != 0);
+
+                fseek(buffer, -sizeof(stUsuario), SEEK_CUR);
+                fwrite(&A, sizeof(stUsuario), 1, buffer);
+                flag = 1;
                 break;
             }
         }
-        fseek(buffer, (-1) * sizeof(stUsuario), SEEK_CUR);
-        fwrite(&A, sizeof(stUsuario), 1, buffer);
+
         fclose(buffer);
     }
+
 }
-
-

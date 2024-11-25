@@ -51,5 +51,5 @@ int buscarCancionPorID(char ArchivoCancion[], int dato);
 void MostrarArchivoCanciones(char ArchivoCancion[], stCancion C);
 void modificarDatosCancion(char ArchivoCancion[], int dato) ;
 void pasarArchiToArbolCanciones(char ArchivoCancion[],nodoArbolCancion** arbol);
-
+stCancion mostrarDatosCancionBuscada(char ArchivoCancion[], int dato);
 #endif // CANCIONES_H_INCLUDED

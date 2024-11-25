@@ -63,15 +63,15 @@
 	"string.h"
 	"usuario.h"
 
-1732404791 source:c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\canciones.c
+1732492187 source:c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\canciones.c
 	<stdio.h>
 	<stdlib.h>
 	"string.h"
 	"canciones.h"
 
-1732406112 c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\canciones.h
+1732490250 c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\canciones.h
 
-1732406233 source:c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\main.c
+1732504126 source:c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\main.c
 	<stdio.h>
 	<stdlib.h>
 	"string.h"
@@ -89,7 +89,7 @@
 	<stdlib.h>
 	"string.h"
 
-1732404791 source:c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\usuario.c
+1732492529 source:c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\usuario.c
 	<stdio.h>
 	<stdlib.h>
 	"string.h"

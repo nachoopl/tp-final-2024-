@@ -132,24 +132,30 @@ void AgregarAlFinal(nodoListaCancion** lista,nodoListaCancion* nuevo)
     }
 }
 
-nodoListaCancion* AgregarEnOrdenPorNombreCancion(nodoListaCancion* lista, nodoListaCancion* nuevoNodo) {
-    if (lista == NULL) {
+nodoListaCancion* AgregarEnOrdenPorNombreCancion(nodoListaCancion* lista, nodoListaCancion* nuevoNodo)
+{
+    if (lista == NULL)
+    {
         return nuevoNodo; // Si la lista está vacía, el nuevo nodo es la primera canción
     }
 
     nodoListaCancion* aux = lista;
     nodoListaCancion* prev = NULL;
 
-    while (aux != NULL && strcmp(aux->dato.titulo, nuevoNodo->dato.titulo) < 0) {
+    while (aux != NULL && strcmp(aux->dato.titulo, nuevoNodo->dato.titulo) < 0)
+    {
         prev = aux;
         aux = aux->siguiente;
     }
 
     // Insertar el nodo en el lugar correcto
-    if (prev == NULL) {
+    if (prev == NULL)
+    {
         nuevoNodo->siguiente = lista;
         lista = nuevoNodo;
-    } else {
+    }
+    else
+    {
         prev->siguiente = nuevoNodo;
         nuevoNodo->siguiente = aux;
     }
@@ -176,7 +182,7 @@ void mostrarUnaCancion(stCancion C)
     printf("\n comentario: %s ",C.comentario);
 
     printf("\n eliminado(1/0): %i",C.eliminado);
-puts("\n---------------------------------------------");
+    puts("\n---------------------------------------------");
 }
 
 void mostrarLista(nodoListaCancion* lista)
@@ -351,7 +357,7 @@ void cargarUnaCancionArchivo(char ArchivoCancion[],stCancion C)
 
 void MostrarArchivoCanciones(char ArchivoCancion[], stCancion C)
 {
-     FILE* archi=fopen("cancion.dat","rb");
+    FILE* archi=fopen("cancion.dat","rb");
     if(archi)
     {
         while(fread(&C,sizeof(stCancion),1,archi)>0)
@@ -363,7 +369,7 @@ void MostrarArchivoCanciones(char ArchivoCancion[], stCancion C)
 }
 
 
-void bajaCancionesArchivo(char ArchivoCancion[], int idCancion) // Funcion que da de baja un usuario por su dni
+void bajaCancionesArchivo(char ArchivoCancion[], int idCancion)
 {
     FILE* archi=fopen(ArchivoCancion,"r+b");
     stCancion C;
@@ -376,40 +382,39 @@ void bajaCancionesArchivo(char ArchivoCancion[], int idCancion) // Funcion que d
                 mostrarUnaCancion(C);
                 C.eliminado=1;
                 fseek(archi, (-1) * sizeof(stCancion), 1);
-        fwrite(&C, sizeof(stCancion), 1, archi);
-        break;
+                fwrite(&C, sizeof(stCancion), 1, archi);
+                break;
             }
         }
 
         fclose(archi);
     }
 }
-
 
 
 void altaCancionArchivo(char ArchivoCancion[], int idCancion)
 {
-    FILE * archi = fopen(ArchivoCancion,"r+b");
+    FILE *archi = fopen(ArchivoCancion, "r+b");
     stCancion C;
 
-    if(archi)
+    if (archi)
     {
-        while(fread(&C, sizeof(stCancion), 1, archi) > 0)
+        while (fread(&C, sizeof(stCancion), 1, archi) > 0)
         {
-            if(idCancion == C.idCancion)
+            if (idCancion == C.idCancion)
             {
                 mostrarUnaCancion(C);
                 C.eliminado = 0;
-
+                fseek(archi, -sizeof(stCancion), SEEK_CUR);
+                fwrite(&C, sizeof(stCancion), 1, archi);
+                break;
             }
         }
-        fseek(archi, (-1) * sizeof(stCancion), 1);
-        fwrite(&C, sizeof(stCancion), 1, archi);
         fclose(archi);
     }
 }
 
-int buscarCancionPorID(char ArchivoCancion[], int dato) // Funcion que busca un usuario por id en el archivo de usuarios
+int buscarCancionPorID(char ArchivoCancion[], int dato)
 {
     stCancion C;
     int flag=0;
@@ -428,88 +433,79 @@ int buscarCancionPorID(char ArchivoCancion[], int dato) // Funcion que busca un 
     return flag;
 }
 
-void modificarDatosCancion(char ArchivoCancion[], int dato) // Funcion que modifica los datos de un usuario ingresado
+void modificarDatosCancion(char ArchivoCancion[], int dato)
 {
-
-    int modo, anio, flag=0;
+    int modo, anio, flag = 0;
     char album[20];
     char comentario[20];
-    FILE* buffer=fopen("canciones.dat", "r+b");
+    FILE *buffer = fopen("cancion.dat", "r+b");
     stCancion C;
-    if(buffer)
+
+    if (buffer)
     {
-        while(flag==0 && fread(&C, sizeof(stCancion), 1, buffer) == 1)
+        while (fread(&C, sizeof(stCancion), 1, buffer) > 0)
         {
-            if(C.idCancion==dato)
+            if (C.idCancion == dato)
             {
                 do
                 {
                     puts("\n-------------------MODIFICAR CANCION-----------------------");
                     mostrarUnaCancion(C);
-                    printf("Elija el dato a modificar(1/2/3/0): \n\n1.Album \n2. Año\n3.Comentario\n0. Regresar\n\nOpcion: ");
+                    printf("Elija el dato a modificar(1/2/3/0): \n\n1.Album \n2. Anio\n3.Comentario\n0. Regresar\n\nOpcion: ");
                     fflush(stdin);
-                    scanf("%d", &modo);
-                    switch(modo)
+                    scanf("%i", &modo);
+                    switch (modo)
                     {
                     case 1:
                         printf("\nIngrese el nuevo album: ");
                         fflush(stdin);
                         gets(album);
                         strcpy(C.album, album);
-                        printf("\nEl alabum se ha cambiado a: %s\n", C.album);
-                        system("pause");
-                        system("cls");
+                        printf("\nEl album se ha cambiado a: %s\n", C.album);
                         break;
                     case 2:
                         printf("\nIngrese el nuevo anio de lanzamiento: ");
                         fflush(stdin);
-                        scanf("%d", &anio);
-                        while(anio > 2024)
+                        scanf("%i", &anio);
+                        while (anio > 2024)
                         {
-                            printf("\nNo puedes registrarte anio mayor al actual: ");
+                            printf("\nNo puedes registrar un anio mayor al actual: ");
                             fflush(stdin);
-                            scanf("%d", &anio);
+                            scanf("%i", &anio);
                         }
-                        C.anio=anio;
-                        printf("\nEl anio se ha cambiado a: %d\n", C.anio);
-                        system("pause");
-                        system("cls");
+                        C.anio = anio;
+                        printf("\nEl año se ha cambiado a: %i\n", C.anio);
                         break;
                     case 3:
-                        printf("\nIngrese el nuevo comentario(MAX 20 CARACTERES): ");
+                        printf("\nIngrese el nuevo comentario (MAXIMO 20 CARACTERES): ");
                         fflush(stdin);
-                        scanf("%s",comentario);
-                        while ( strlen(comentario) >= 20)
+                        scanf("%s", comentario);
+                        while (strlen(comentario) >= 20)
                         {
-                            printf("ERROR: El coementario debe tener menos de 20 caracteres. Ingrese un comentario valido: ");
+                            printf("ERROR: El comentario debe tener menos de 20 caracteres. Ingrese un comentario valido: ");
                             fflush(stdin);
-                            scanf("%s",comentario);
+                            scanf("%s", comentario);
                         }
-                        strcpy(C.comentario,comentario);
-
-                        printf("\nEl comentario se ha cambiado a: %s\n",C.comentario);
-
-                        system("pause");
-                        system("cls");
+                        strcpy(C.comentario, comentario);
+                        printf("\nEl comentario se ha cambiado a: %s\n", C.comentario);
                         break;
                     case 0:
-                        system("cls");
                         break;
                     default:
                         printf("Numero erroneo, ingrese uno valido\n\n");
                         break;
                     }
-                }
-                while(modo!=0);
+                } while (modo != 0);
+
+                fseek(buffer, -sizeof(stCancion), SEEK_CUR);
+                fwrite(&C, sizeof(stCancion), 1, buffer);
+                flag = 1;
                 break;
             }
         }
-        fseek(buffer, (-1) * sizeof(stCancion), SEEK_CUR);
-        fwrite(&C, sizeof(stCancion), 1, buffer);
         fclose(buffer);
     }
 }
-
 void pasarArchiToArbolCanciones(char ArchivoCancion[],nodoArbolCancion** arbol)
 {
     FILE* archi=fopen("cancion.dat","rb");
@@ -523,4 +519,25 @@ void pasarArchiToArbolCanciones(char ArchivoCancion[],nodoArbolCancion** arbol)
         }
     }
     fclose(archi);
+}
+
+stCancion mostrarDatosCancionBuscada(char ArchivoCancion[], int dato)
+{
+    stCancion C;
+    C.idCancion = -1;
+    FILE * buffer = fopen(ArchivoCancion, "rb");
+
+    if (buffer)
+    {
+        while (fread(&C, sizeof(stCancion), 1, buffer) > 0)
+        {
+            if (C.idCancion == dato)
+            {
+                fclose(buffer);
+                return C;
+            }
+        }
+        fclose(buffer);
+    }
+    return C;
 }
