@@ -28,5 +28,6 @@ void modificarDatosUsuario(char ArchivoUsuario[], int dato);
 stUsuario cargarUsuarioADL(int idUsuario);
 int buscarUsuarioPorNombre(char ArchivoUsuario[], char nombreUsuario[]);
 stUsuario UsuarioBuscado(char ArchivoUsuario[], char usuario[]);
-void menuLoginExitoso(stUsuario usuarioLogueado, char ArchivoPlaylist[], char ArchivoCancion[]);
+void ordenamientoAlfabeticoUsuarionombre(char ArchivoUsuario[],stUsuario A,int pos);
+int NombreMenor(char ArchivoUsuario[],stUsuario A,int pos);
 #endif // USUARIO_H_INCLUDED
