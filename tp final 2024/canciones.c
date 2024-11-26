@@ -549,3 +549,74 @@ stCancion mostrarDatosCancionBuscada(char ArchivoCancion[], int dato)
     }
     return C;
 }
+
+
+nodoArbolCancion * encontrarMinimo(nodoArbolCancion * arbol)
+{
+    while (arbol->izq != NULL)
+    {
+        arbol = arbol->izq;
+    }
+    return arbol;
+}
+
+nodoArbolCancion * eliminarNodo(nodoArbolCancion* arbol, int idCancion)
+{
+    if (arbol == NULL)
+        return NULL;
+
+    // Buscar el nodo a eliminar en el lado izquierdo o derecho
+    if (idCancion < arbol->dato.idCancion)
+        arbol->izq = eliminarNodo(arbol->izq, idCancion);
+
+    else if (idCancion > arbol->dato.idCancion)
+        arbol->der = eliminarNodo(arbol->der, idCancion);
+
+    else
+    {
+        // despues de encontrar el nodo a eliminar
+        // Caso 1: Nodo sin hijos o un solo hijo
+        if (arbol->izq == NULL)
+        {
+            nodoArbolCancion* aux = arbol->der;
+            free(arbol);
+            return aux;
+        }
+        else if (arbol->der == NULL)
+        {
+            nodoArbolCancion* aux = arbol->izq;
+            free(arbol);
+            return aux;
+        }
+
+        // Caso 2: Nodo con dos hijos
+        nodoArbolCancion* aux = encontrarMinimo(arbol->der);
+
+        // Copiar el dato del nodo siguiente al nodo actual
+        arbol->dato = aux->dato;
+
+        // Eliminar el siguiente
+        arbol->der = eliminarNodo(arbol->der, aux->dato.idCancion);
+    }
+
+    return arbol;
+}
+
+void cargarArchivoDecanciones(char ArchivoCancion [])
+{
+    FILE* archi=fopen("cancion.dat","ab");
+    char control='s';
+    stCancion C;
+    if(archi)
+    {
+        while(control=='s')
+        {
+            C=cargarUnaCancion();
+            fwrite(&C,sizeof(stCancion),1,archi);
+            printf("cargar mas?(s)\n");
+            fflush(stdin);
+            scanf("%c",&control);
+        }
+    }
+    fclose(archi);
+}

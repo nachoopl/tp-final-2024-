@@ -29,8 +29,8 @@ void menu()
     validos = pasarArchivoCancionesToADL("cancion.dat",ADL, validos);
 
     //limpiarArregloDeListas(ADL, validos);
-    mostrarADL(ADL, validos);
-    persistirCancionesEscuchadas(ADL, "escuchadas.dat", validos);
+    //mostrarADL(ADL, validos);
+    //persistirCancionesEscuchadas(ADL, "escuchadas.dat", validos);
     //mostrarArchiEscuchadas("escuchadas.dat");
 
     int user, login, adm, listusuarios, usua;
@@ -47,7 +47,7 @@ void menu()
         puts("\n-----------------Gestion Musica-------------------------");
         printf("\n\nElija el tipo:(1/2/3/0): \n\n1. Administrador\n2. Usuario\n3. Registrarse\n0. Salir\n\nModo de usuario: ");
         fflush(stdin);
-        scanf("%d", &user);
+        scanf("%i", &user);
         system("cls");
 
         switch(user)
@@ -117,6 +117,7 @@ void menu()
                                     break;
                                 case 2: //Baja Usuario
                                     printf("ingrese el IdUsuario a dar de baja: \n");
+                                    fflush(stdin);
                                     scanf("%i",&idUsuariobaja);
                                     int buscarbaja=buscarUsuarioPorID("usuario.dat",idUsuariobaja);
                                     if(buscarbaja==1)
@@ -137,6 +138,7 @@ void menu()
                                     break;
                                 case 3: //Modificacion Usuario
                                     printf("ingrese el IdUsuario a modificar: \n");
+                                    fflush(stdin);
                                     scanf("%i",&idUsuario);
                                     buscar=buscarUsuarioPorID("usuario.dat",idUsuario);
                                     if(buscar==1)
@@ -147,10 +149,10 @@ void menu()
                                     system("cls");
                                     break;
                                 case 4:
-                                    printf("ARREGLO DE LISTAS: \n");
                                     fflush(stdin);
                                     validos= pasarArchivoPlaylistToADL("playlist.dat",ADL, validos,arbol);
-                                    mostrarADL(ADL, validos);
+                                    persistirCancionesEscuchadas(ADL, "escuchadas.dat", validos);
+                                    mostrarArchiEscuchadas("escuchadas.dat");
                                     system("pause");
                                     system("cls");
                                     break;
@@ -178,7 +180,7 @@ void menu()
                                 printf("Admin -> Canciones\n");
                                 printf("Que quiere hacer(1/2/3/4/5/0): \n\n1. Alta\n2. Baja\n3. Modificacion\n5. Consulta\n6. Listados\n0. Regresar\n\nOpcion: ");
                                 fflush(stdin);
-                                scanf("%d", &adm);
+                                scanf("%i", &adm);
                                 system("cls");
 
                                 switch(adm)
@@ -217,6 +219,7 @@ void menu()
                                 case 2:
                                     // Baja Cancion
                                     printf("ingrese el IdCancion a dar de baja: \n");
+                                    fflush(stdin);
                                     scanf("%i",&idcancionbaja);
                                     int buscarbaja=buscarCancionPorID("cancion.dat",idcancionbaja);
                                     if(buscarbaja==1)
@@ -240,6 +243,7 @@ void menu()
                                 case 3:
                                     // Modificación
                                     printf("ingrese el IDcancion a modificar: \n");
+                                    fflush(stdin);
                                     scanf("%i",&idcancion);
                                     buscarC=buscarCancionPorID("cancion.dat",idcancion);
                                     if(buscarC==1)
@@ -333,7 +337,8 @@ void menu()
                     printf("4. Canciones Recomendadas\n");
                     printf("0. Cerrar Sesion\n");
                     printf("\nElige una opcion: ");
-                    scanf("%d", &opcion);
+                    fflush(stdin);
+                    scanf("%i", &opcion);
 
                     switch (opcion)
                     {
@@ -621,6 +626,7 @@ void listarCanciones(char archivo[]) {
     printf("1. Por Titulo (Ordenado alfabeticamente)\n");
     printf("2. Por Genero (Ordenado alfabeticamente)\n");
     printf("Opcion: ");
+    fflush(stdin);
     scanf("%i", &opcion);
 
     switch (opcion) {
@@ -690,59 +696,10 @@ void listarUsuarios(char archivo[]) {
     mostrarUsuarios(usuarios, numUsuarios);
 }
 
-void mostrarPlaylist(char archivoPlaylist[], char archivoCancion[], int idUsuario) {
-    stPlaylist playlist[100]; // Array para almacenar las canciones en la playlist del usuario
-    stCancion canciones[100]; // Array para almacenar todas las canciones
-    int numPlaylist = cargarPlaylist(archivoPlaylist, playlist, idUsuario);
-    int numCanciones = cargarCanciones(archivoCancion, canciones);
 
-    int opcion;
-    printf("Seleccione el criterio de listado:\n");
-    printf("1. Por Nombre de Cancion (Ordenado alfabeticamente)\n");
-    printf("2. Por Genero (Ordenado alfabeticamente)\n");
-    printf("Opcion: ");
-    fflush(stdin);
-    scanf("%i", &opcion);
 
-    switch (opcion) {
-        case 1:
-            // Ordenar las canciones por nombre
-            ordenarPorTitulo(canciones, numCanciones);
-            printf("\nCanciones en tu playlist ordenadas por nombre:\n");
-            mostrarCancionesPlaylist(playlist, canciones, numPlaylist, numCanciones);
-            break;
-
-        case 2:
-            // Ordenar las canciones por género
-            ordenarPorGenero(canciones, numCanciones);
-            printf("\nCanciones en tu playlist ordenadas por genero:\n");
-            mostrarCancionesPlaylist(playlist, canciones, numPlaylist, numCanciones);
-            break;
-
-        default:
-            printf("Opcion no valida.\n");
-            break;
-    }
-}
-
-// Función para mostrar las canciones de la playlist del usuario
-void mostrarCancionesPlaylist(stPlaylist playlist[], stCancion canciones[], int numPlaylist, int numCanciones) {
-    for (int i = 0; i < numPlaylist; i++) {
-        for (int j = 0; j < numCanciones; j++) {
-            if (playlist[i].idCancion == canciones[j].idCancion) {
-                printf("ID Cancion: %i\n", canciones[j].idCancion);
-                printf("Titulo: %s\n", canciones[j].titulo);
-                printf("Artista: %s\n", canciones[j].artista);
-                printf("Genero: %s\n", canciones[j].genero);
-                printf("------------------------------------\n");
-            }
-        }
-    }
-}
-
-// Función para cargar la playlist del usuario
 int cargarPlaylist(char archivoPlaylist[], stPlaylist playlist[], int idUsuario) {
-    FILE* archivo = fopen(archivoPlaylist, "rb");
+    FILE * archivo = fopen(archivoPlaylist, "rb");
     int i = 0;
 
     if (archivo) {
@@ -752,58 +709,338 @@ int cargarPlaylist(char archivoPlaylist[], stPlaylist playlist[], int idUsuario)
             }
         }
         fclose(archivo);
+    } else {
+        printf("Error al abrir el archivo de playlist.\n");
     }
 
     return i;
 }
 
-// Función para cargar las canciones desde el archivo
-int cargarArregloPlaylistConCanciones(char archivo[], stCancion canciones[]) {
-    FILE* archivoCancion = fopen(archivo, "rb");
-    int i = 0;
 
-    if (archivoCancion) {
-        while (fread(&canciones[i], sizeof(stCancion), 1, archivoCancion)) {
-            i++;
-        }
-        fclose(archivoCancion);
-    }
-
-    return i;
-}
-
-// Función para ordenar las canciones por nombre
-void ordenarPorTituloPlaylist(stCancion canciones[], int numCanciones) {
-    int i, j, posMenor;
-    stCancion aux;
-
-    for (i = 0; i < numCanciones - 1; i++) {
-        posMenor = i;
-        for (j = i + 1; j < numCanciones; j++) {
-            if (strcmp(canciones[j].titulo, canciones[posMenor].titulo) < 0) {
-                posMenor = j;
+void ordenarPorTituloP(stCancion canciones[], int numCanciones) {
+    for (int i = 0; i < numCanciones - 1; i++) {
+        for (int j = i + 1; j < numCanciones; j++) {
+            if (stricmp(canciones[i].titulo, canciones[j].titulo) > 0) {
+                stCancion temp = canciones[i];
+                canciones[i] = canciones[j];
+                canciones[j] = temp;
             }
         }
-        aux = canciones[i];
-        canciones[i] = canciones[posMenor];
-        canciones[posMenor] = aux;
     }
 }
 
-// Función para ordenar las canciones por género
-void ordenarPorGeneroPlaylist(stCancion canciones[], int numCanciones) {
-    int i, j;
-    stCancion aux;
-
-    for (i = 1; i < numCanciones; i++) {
-        aux = canciones[i];
-        j = i - 1;
-
-        // Mover las canciones mayores a la posición correcta (orden ascendente)
-        while (j >= 0 && strcmp(canciones[j].genero, aux.genero) > 0) {
-            canciones[j + 1] = canciones[j];
-            j--;
+void ordenarPorGeneroP(stCancion canciones[], int numCanciones) {
+    for (int i = 0; i < numCanciones - 1; i++) {
+        for (int j = i + 1; j < numCanciones; j++) {
+            if (stricmp(canciones[i].genero, canciones[j].genero) > 0) {
+                stCancion temp = canciones[i];
+                canciones[i] = canciones[j];
+                canciones[j] = temp;
+            }
         }
-        canciones[j + 1] = aux;
     }
 }
+
+void mostrarPlaylist(char archivoPlaylist[], char archivoCancion[], int idUsuario) {
+    stPlaylist playlist[100];  // Almacena canciones de la playlist del usuario
+    stCancion canciones[100];  // Almacena todas las canciones disponibles
+    stCancion cancionesPlaylist[100]; // Almacena solo las canciones de la playlist
+    int numPlaylist = cargarPlaylist(archivoPlaylist, playlist, idUsuario);
+    int numCanciones = cargarCanciones(archivoCancion, canciones);
+    int numCancionesPlaylist = 0;
+
+    if (numPlaylist == 0) {
+        printf("No tienes canciones en tu playlist.\n");
+        return;
+    }
+
+    // Copiar las canciones de la playlist al arreglo temporal
+    for (int i = 0; i < numPlaylist; i++) {
+        for (int j = 0; j < numCanciones; j++) {
+            if (playlist[i].idCancion == canciones[j].idCancion) {
+                cancionesPlaylist[numCancionesPlaylist++] = canciones[j];
+            }
+        }
+    }
+
+    // Solicitar al usuario el criterio de ordenamiento
+    int opcion = seleccionarCriterioOrdenamiento();
+
+    // Ordenar según la opción seleccionada
+    if (opcion == 1) {
+        ordenarPorTituloP(cancionesPlaylist, numCancionesPlaylist);
+        printf("\nCanciones ordenadas por nombre:\n");
+    } else if (opcion == 2) {
+        ordenarPorGeneroP(cancionesPlaylist, numCancionesPlaylist);
+        printf("\nCanciones ordenadas por genero:\n");
+    }
+
+    // Mostrar las canciones de la playlist
+    printf("Canciones en la Playlist:\n");
+    printf("------------------------------------\n");
+    for (int i = 0; i < numCancionesPlaylist; i++) {
+        printf("ID Cancion: %i\n", cancionesPlaylist[i].idCancion);
+        printf("Titulo    : %s\n", cancionesPlaylist[i].titulo);
+        printf("Artista   : %s\n", cancionesPlaylist[i].artista);
+        printf("Genero    : %s\n", cancionesPlaylist[i].genero);
+        printf("------------------------------------\n");
+    }
+}
+
+int seleccionarCriterioOrdenamiento() {
+    int opcion;
+    do {
+        printf("Seleccione el criterio de ordenamiento:\n");
+        printf("1. Ordenar por Nombre de Cancion\n");
+        printf("2. Ordenar por Genero\n");
+        printf("Ingrese su opcion (1 o 2): ");
+        fflush(stdin);
+        scanf("%i", &opcion);
+
+        if (opcion != 1 && opcion != 2) {
+            printf("Opción invalida. Intente nuevamente.\n");
+        }
+    } while (opcion != 1 && opcion != 2);
+
+    return opcion;
+}
+
+int pasarArchivoPlaylistToADL(char Archivoplaylist[], stCelda ADL[], int validos, nodoArbolCancion *arbol)
+{
+    FILE * archi = fopen(Archivoplaylist, "rb");
+    if (archi == NULL)
+    {
+        printf("ERROR: No se pudo abrir el archivo de playlists\n");
+        return validos;
+    }
+    stPlaylist playlist;
+    while (fread(&playlist, sizeof(stPlaylist), 1, archi) > 0)
+    {
+        int pos = buscarPosUsuario(ADL, playlist.idUsuario, validos);
+        if (pos != -1)
+        {
+            nodoArbolCancion * cancionBuscada = buscarCancion(arbol, playlist.idCancion);
+            if (cancionBuscada != NULL)
+            {
+                nodoListaCancion * nuevoNodo = crearNodo(cancionBuscada->dato);
+                ADL[pos].listaCanciones = AgregarEnOrdenPorNombreCancion(ADL[pos].listaCanciones, nuevoNodo);
+            }
+        }
+    }
+
+    fclose(archi);
+    return validos;
+}
+
+int pasarArchivoCancionesToADL(char archivoCanciones[], stCelda ADL[], int validos)
+{
+    FILE *archi = fopen(archivoCanciones, "rb");
+    if (!archi)
+    {
+        printf("Error al abrir el archivo %s \n", archivoCanciones);
+        return validos;
+    }
+
+    stCancion cancion;
+    while (fread(&cancion, sizeof(stCancion), 1, archi) > 0)
+    {
+        for (int i = 0; i < validos; i++)
+        {
+
+            if (usuarioEscuchaCancion(ADL[i].A.idUsuario, cancion.idCancion))
+            {
+                nodoListaCancion *nuevoNodo = crearNodo(cancion);
+                ADL[i].listaCanciones = AgregarEnOrdenPorNombreCancion(ADL[i].listaCanciones, nuevoNodo);
+            }
+        }
+    }
+
+    fclose(archi);
+    return validos;
+}
+
+int usuarioEscuchaCancion(int idUsuario, int idCancion)
+{
+    FILE *archi = fopen("playlist.dat", "rb");
+    if (archi == NULL)
+    {
+        return 0;
+    }
+
+    stPlaylist playlist;
+    while (fread(&playlist, sizeof(stPlaylist), 1, archi) > 0)
+    {
+
+        if (playlist.idUsuario == idUsuario && playlist.idCancion == idCancion)
+        {
+            fclose(archi);
+            return 1;
+        }
+    }
+
+    fclose(archi);
+    return 0;
+}
+
+void limpiarArregloDeListas(stCelda ADL[], int validos)
+{
+    for(int i = 0; i < validos; i++)
+    {
+        nodoListaCancion * aux = ADL[i].listaCanciones;
+        while(aux != NULL)
+        {
+            nodoListaCancion * aBorrar = aux;
+            aux = aux->siguiente;
+            free(aBorrar);
+        }
+        ADL[i].listaCanciones = iniclista();
+    }
+}
+
+void persistirCancionesEscuchadas(stCelda ADL[], char ArchivoCancionesEscuchadas[], int validos)
+{
+    FILE *archi = fopen("escuchadas.dat", "wb");
+
+    if (archi == NULL)
+    {
+        printf("ERROR: No se pudo abrir el archivo %s\n", ArchivoCancionesEscuchadas);
+        return;
+    }
+
+    for (int i = 0; i < validos; i++)
+    {
+        nodoListaCancion *aux = ADL[i].listaCanciones;
+
+        while (aux != NULL)
+        {
+            stCancionesEscuchadas cancionesEscuchadas;
+            cancionesEscuchadas.idUsuario = ADL[i].A.idUsuario;
+            strcpy(cancionesEscuchadas.nombreUsuario, ADL[i].A.nombreUsuario);
+
+            cancionesEscuchadas.idCancion = aux->dato.idCancion;
+            strcpy(cancionesEscuchadas.nombreCancion, aux->dato.titulo);
+
+            fwrite(&cancionesEscuchadas, sizeof(stCancionesEscuchadas), 1, archi);
+            aux = aux->siguiente;
+        }
+    }
+
+    fclose(archi);
+
+}
+
+void mostrarArchiEscuchadas(char ArchivoCancionesEscuchadas[])
+{
+    FILE *archi = fopen("escuchadas.dat", "rb");
+
+    if (archi == NULL)
+    {
+        printf("ERROR: No se pudo abrir el archivo %s\n", ArchivoCancionesEscuchadas);
+        return;
+    }
+
+    stCancionesEscuchadas cancionesEscuchadas;
+    printf("\nArchivo datos de canciones escuchadas:\n");
+    printf("---------------------------------\n");
+
+    while (fread(&cancionesEscuchadas, sizeof(stCancionesEscuchadas), 1, archi) > 0)
+    {
+        printf("ID Usuario: %d\n", cancionesEscuchadas.idUsuario);
+        printf("Nombre Usuario: %s\n", cancionesEscuchadas.nombreUsuario);
+        printf("ID Cancion: %d\n", cancionesEscuchadas.idCancion);
+        printf("Nombre Cancion: %s\n", cancionesEscuchadas.nombreCancion);
+        printf("-----------------------------\n");
+    }
+
+    fclose(archi);
+
+}
+
+
+void mostrarADL(stCelda ADL[], int validos)
+{
+    for (int i = 0; i < validos; i++)
+    {
+        printf("\nID Usuario: %i", ADL[i].A.idUsuario);
+        printf("\nNombre de Usuario: %s", ADL[i].A.nombreUsuario);
+
+        if (ADL[i].listaCanciones == NULL)
+        {
+            printf("\nSin canciones.\n");
+        }
+        else
+        {
+            printf("\nCanciones:\n");
+            nodoListaCancion *aux = ADL[i].listaCanciones;
+            while (aux != NULL)
+            {
+                printf("  - ID Cancion: %i, Titulo: %s\n", aux->dato.idCancion, aux->dato.titulo);
+                aux = aux->siguiente;
+            }
+        }
+        printf("------------------------------------\n");
+    }
+}
+
+int alta(stCelda ADL[],int validos,stUsuario A,stCancion C)
+{
+    nodoListaCancion* aux=crearNodo(C);
+    int pos=buscarPosUsuario(ADL,A.idUsuario,validos);
+    if(pos==-1)
+    {
+        A=cargarUsuarioADL(A.idUsuario);
+        validos=agregarUsuario(ADL,A,validos);
+        pos=validos-1;
+    }
+    ADL[pos].listaCanciones=AgregarEnOrdenPorNombreCancion(ADL[pos].listaCanciones,aux);
+    return validos;
+}
+
+int contarUsuariosActivos(char ArchivoUsuario[])
+{
+    FILE* archi = fopen("usuario.dat", "rb");
+    int cantidad = 0;
+
+    if(archi)
+    {
+        stUsuario usuario;
+        while (fread(&usuario, sizeof(stUsuario), 1, archi) > 0)
+        {
+            if (usuario.eliminado == 0)
+            {
+                cantidad++;
+            }
+        }
+
+        fclose(archi);
+    }
+    return cantidad;
+}
+
+
+
+int pasarArchivoToADL(char ArchivoUsuario[], stCelda ADL[])
+{
+    FILE* archi = fopen(ArchivoUsuario, "rb");
+    if (!archi)
+    {
+        printf("ERROR: No se pudo abrir el archivo de usuarios.\n");
+        return 0;
+    }
+
+    stUsuario A;
+    int validos = 0;
+    while (fread(&A, sizeof(stUsuario), 1, archi) > 0)
+    {
+        if (A.eliminado == 0)
+        {
+            ADL[validos].A = A;
+            ADL[validos].listaCanciones = iniclista();
+            validos++;
+        }
+    }
+
+    fclose(archi);
+    return validos;
+}
+

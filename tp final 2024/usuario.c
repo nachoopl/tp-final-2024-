@@ -396,3 +396,22 @@ void ordenamientoAlfabeticoUsuarionombre(char ArchivoUsuario[],stUsuario A,int p
       fclose(buffer);
          }
          }
+
+void cargarArchivoDeUsuario( char ArchivoUsuario[])
+{
+    FILE* archi=fopen("usuario.dat","ab");
+    char control='s';
+    stUsuario A;
+    if(archi)
+    {
+        while(control=='s')
+        {
+            A=cargarUnusuario();
+            fwrite(&A,sizeof(stUsuario),1,archi);
+            printf("cargar mas?(s)\n");
+            fflush(stdin);
+            scanf(" %c",&control);
+        }
+    }
+    fclose(archi);
+}

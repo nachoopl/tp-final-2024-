@@ -32,4 +32,5 @@ int buscarUsuarioPorNombre(char ArchivoUsuario[], char nombreUsuario[]);
 stUsuario UsuarioBuscado(char ArchivoUsuario[], char usuario[]);
 void ordenamientoAlfabeticoUsuarionombre(char ArchivoUsuario[],stUsuario A,int pos);
 int NombreMenor(char ArchivoUsuario[],stUsuario A,int pos);
+void cargarArchivoDeUsuario( char ArchivoUsuario[]);
 #endif // USUARIO_H_INCLUDED

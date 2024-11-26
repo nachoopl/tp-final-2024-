@@ -84,3 +84,7 @@ void mostrarArchivoPlaylist(char Archivoplaylist[],stPlaylist nuevaPlaylist)
         fclose(archi);
     }
 }
+
+
+
+

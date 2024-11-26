@@ -52,4 +52,7 @@ void MostrarArchivoCanciones(char ArchivoCancion[], stCancion C);
 void modificarDatosCancion(char ArchivoCancion[], int dato) ;
 void pasarArchiToArbolCanciones(char ArchivoCancion[],nodoArbolCancion** arbol);
 stCancion mostrarDatosCancionBuscada(char ArchivoCancion[], int dato);
+nodoArbolCancion * encontrarMinimo(nodoArbolCancion * arbol);
+nodoArbolCancion * eliminarNodo(nodoArbolCancion* arbol, int idCancion);
+void cargarArchivoDecanciones(char ArchivoCancion []);
 #endif // CANCIONES_H_INCLUDED

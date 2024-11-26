@@ -63,15 +63,15 @@
 	"string.h"
 	"usuario.h"
 
-1732550005 source:c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\canciones.c
+1732587474 source:c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\canciones.c
 	<stdio.h>
 	<stdlib.h>
 	"string.h"
 	"canciones.h"
 
-1732490250 c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\canciones.h
+1732587474 c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\canciones.h
 
-1732564671 source:c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\main.c
+1732587793 source:c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\main.c
 	<stdio.h>
 	<stdlib.h>
 	"string.h"
@@ -80,18 +80,18 @@
 	"playlist.h"
 	"menu.h"
 
-1732560512 c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\usuario.h
+1732587474 c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\usuario.h
 	"canciones.h"
 
 1732556495 c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\playlist.h
 
-1732556380 source:c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\playlist.c
+1732587704 source:c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\playlist.c
 	<stdio.h>
 	<stdlib.h>
 	"string.h"
 	"playlist.h"
 
-1732558619 source:c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\usuario.c
+1732587474 source:c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\usuario.c
 	<stdio.h>
 	<stdlib.h>
 	"string.h"
@@ -129,9 +129,9 @@
 
 1732383078 c:\users\agustin\onedrive\escritorio\tp github\tp-final-2024-\tp final 2024\playlist.h
 
-1732567295 c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\menu.h
+1732587793 c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\menu.h
 
-1732567536 source:c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\menu.c
+1732588579 source:c:\users\nacho\downloads\git hub tp final\tp-final-2024-\tp final 2024\menu.c
 	<stdio.h>
 	<stdlib.h>
 	"string.h"
